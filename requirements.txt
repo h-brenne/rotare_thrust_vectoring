@@ -1,0 +1,7 @@
+# Python requirements.
+# THIS IS NOT NEEDED FOR SIMPLE USE OF THE SOFTWARE.
+# These requirements are for managing automated testing and good code quality
+# during the development.
+
+miss_hit   # Matlab static code analysis
+pre-commit # Easy setup of pre-commit hooks

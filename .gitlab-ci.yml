@@ -1,0 +1,44 @@
+---
+# This CI/CD pipeline is used to
+#   1. Ensure code quality
+#   2. Generate releases automatically
+
+
+# Using the official Python Docker image as default
+default:
+  image: python
+  before_script:
+    - pip install miss_hit
+
+# Pipeline stages
+stages:
+  - static analysis
+  - release
+
+# Static code analysis jobs via MISS_HIT
+style_check:
+  stage: static analysis
+  script:
+    - mh_style . --fix
+
+metric_check:
+  stage: static analysis
+  script:
+    - mh_metric . --ci
+
+lint_check:
+  stage: static analysis
+  script:
+    - mh_lint .
+
+# TODO: Use git-archive-all and bake an archive that includes submodules
+release_job:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG  # Run when we create a new tag
+  script:
+    - echo "Running release_job for $TAG"
+  release:
+    tag_name: '$CI_COMMIT_TAG'
+    description: 'Automatic release for version $CI_COMMIT_TAG'

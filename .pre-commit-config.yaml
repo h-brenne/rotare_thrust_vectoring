@@ -1,0 +1,30 @@
+---
+# These hooks run the three MISS_HIT checks to ensure good code quality before
+# each commit.
+
+repos:
+  - repo: local
+    hooks:
+      # MISS_HIT code style check
+      - id: mh_style
+        entry: mh_style
+        name: mh_style
+        args: [--process-slx, --fix]
+        files: ^(.*\.(m|slx))$
+        language: python
+        additional_dependencies: [miss_hit_core]
+      # MISS_HIT code metric check
+      - id: mh_metric
+        name: mh_metric
+        entry: mh_metric
+        args: [--ci]
+        files: ^(.*\.(m|slx))$
+        language: python
+        additional_dependencies: [miss_hit_core]
+      # MISS_HIT code linting check
+      - id: mh_lint
+        name: mh_lint
+        entry: mh_lint
+        files: ^(.*\.(m|slx))$
+        language: python
+        additional_dependencies: [miss_hit]
