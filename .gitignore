@@ -1,0 +1,23 @@
+# Files to ignore
+*.DS_Store
+*.m~
+*.mexw64
+*.mexmaci64
+
+# Folders to ignore
+results/
+
+# Ignore all configs by default and only add some to be kept
+src/configs/*
+!src/configs/template.m
+!src/configs/caradonna1981.m
+!src/configs/knight1937.m
+
+# Ignore all from src/airfoil_data except the ones used for the available configs
+src/airfoil_data/*
+!src/airfoil_data/*.md
+!src/airfoil_data/*.py
+!src/airfoil_data/naca0012.dat
+!src/airfoil_data/NACA_0012-Re_2e5-1e7.mat
+!src/airfoil_data/naca0015.dat
+!src/airfoil_data/NACA_0015-Re_2e5-1e7.mat
