@@ -1,4 +1,10 @@
+<table align="center"><tr><td align="center" width="9999">
+<!-- <img src="media/rotare-title.png" align="center" width="150" alt="Rotare header"> -->
+
 # Rotare
+
+A Free Open-Source Blade Element Momentum Theory implementation in Matlab.
+</td></tr></table>
 
 **Rotare** is a feature-rich and open-source implementation of the Blade Element
 Momentum Theory in MATLAB.
@@ -12,6 +18,10 @@ Liege][uliege-am] (Belgium) by Thomas Lambert during his Ph.D. The code was
 later extended to add different solvers, many extensions to the base methodology
 and to support more complex geometries. It is now a complete analysis tool that
 can be used in a wide range of applications outside of academia.
+
+<div align="center">
+  {- WARNING: The code is not yet fully validated. Use with caution. -}
+</div>
 
 ## Features
 
