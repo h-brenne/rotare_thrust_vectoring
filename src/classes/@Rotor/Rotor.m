@@ -91,7 +91,7 @@ classdef Rotor < handle
 
     methods
 
-        function self = Rotor(nBlades, Af, rad, chord, twist, iAf, nElem, name)
+        function self = Rotor(nBlades, Af, rad, chord, twist, iAf, nElem, position, name)
             % ROTOR Constructor.
             %   Constructs the object, stores the handle of the airfoil used and creates the blade
             %   object to represent the elements. See main class help for details.
@@ -99,7 +99,10 @@ classdef Rotor < handle
 
             if nargin > 0
                 self.nBlades = nBlades;
-                if nargin == 8
+                if nargin >= 8
+                    self.position = position;
+                end
+                if nargin == 9
                     self.name = name;
                 end
 
