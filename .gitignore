@@ -3,6 +3,7 @@
 *.m~
 *.mexw64
 *.mexmaci64
+*.zip
 
 # Folders to ignore
 results/

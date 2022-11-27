@@ -1,0 +1,18 @@
+# Files to ignore when packaging the archive (cleaner archive)
+
+## Directories
+media/** export-ignore
+
+## Files
+.gitignore export-ignore
+.gitmodules export-ignore
+.gitlab-ci.yml export-ignore
+.pre-commit-config.yaml export-ignore
+miss_hit.cfg export-ignore
+requirements.txt export-ignore
+CODEOWNERS export-ignore
+RELEASE.md export-ignore
+CONTRIBUTING.md  export-ignore
+
+## Useless files and dir from libraries
+src/libs/matlab_airfoil_toolbox/tests/** export-ignore
