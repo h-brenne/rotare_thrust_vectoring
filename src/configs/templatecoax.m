@@ -34,6 +34,7 @@ else
     rotorShift = [-1, 0, 0];
 end
 Blade(2).hubPos = Blade(1).hubPos + rotorShift; % Shift second rotor w.r.t the application type
+Blade(2).spinDir = -Blade(1).spinDir; % Spin in opposite direction from first rotor
 
 % ==================================================================================================
 % ===================================== Operating points ===========================================
