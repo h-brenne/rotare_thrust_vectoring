@@ -26,6 +26,7 @@ function bemt(OpRot, Mod)
     % ----------------------------------------------------------------------------------------------
     % TODO: Implement coaxial rotors
     % TODO: Implement oblique flows
+    %   - Edit upstreamVel accordingly
     % ----------------------------------------------------------------------------------------------
     % (c) Copyright 2022 University of Liege
     % Author: Thomas Lambert <t.lambert@uliege.be>
@@ -36,13 +37,16 @@ function bemt(OpRot, Mod)
     % Issues: https://gitlab.uliege.be/thlamb/rotare/-/issues
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    % For each rotor, calculate the external velocity and solve the BEMT equations
+    % For each rotor, calculate the upstream external velocity and solve the BEMT equations
 
-    for i = 1:length(OpRot)
+    bemtsinglerot(OpRot(1), Mod);
 
-        % TODO: Coaxial: Determine proper external velocity to pass to the rotor here
+    for i = 2:length(OpRot)
 
-        % Solves BEMT equations for the rotor using the true distribution of external velocity
+        % [FIXME] Not quite correct. Depends on the spacing between the two rotors
+        OpRot(i).upstreamVel = OpRot(i).upstreamVel + ...
+            [2 * OpRot(i - 1).ElPerf.indVelAx; 2 * OpRot(i - 1).ElPerf.indVelTg];
+
         bemtsinglerot(OpRot(i), Mod);
 
     end

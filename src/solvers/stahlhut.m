@@ -60,6 +60,8 @@ function stahlhut(OpRot, Mod)
 
     for i = 1:OpRot.Rot.Bl.nElem
 
+        airspeed = sqrt(OpRot.upstreamVel(1, i)^2 + OpRot.upstreamVel(2, i)^2);
+
         Gfunc = @(phi) stahlhuteq(i, phi, OpRot, Mod.Ext.losses);
 
         try % If issue with the solver, plot the function and add information to error msg
@@ -67,15 +69,15 @@ function stahlhut(OpRot, Mod)
             % When hover/idle, first evaluate g(0) to determine the sign of g(phi)
             gzero = [];
 
-            if OpRot.Op.speed == 0
+            if airspeed == 0
                 gzero = Gfunc(0);
             end
 
             % Define interval where the root is expected to be found
-            if OpRot.Op.speed > 0 || gzero <= 0
+            if airspeed > 0 || gzero <= 0
                 unk0(1) = IND_ANGLE_ZERO;
                 unk0(2) = IND_ANGLE_UP;
-            elseif OpRot.Op.speed < 0 || gzero > 0
+            elseif airspeed < 0 || gzero > 0
                 unk0(1) = IND_ANGLE_LOW;
                 unk0(2) = IND_ANGLE_ZERO;
             end
@@ -137,7 +139,7 @@ function [gphi, b1phi, b2phi] = stahlhuteq(i, phi, OpRot, lossType)
     reynolds = OpRot.ElPerf.reynolds(i);
     tgSpeed = OpRot.ElPerf.tgSpeed(i);
     pitch = OpRot.ElPerf.truePitch(i);
-    airspeed = OpRot.Op.speed;
+    airspeed = sqrt(OpRot.upstreamVel(1, i)^2 + OpRot.upstreamVel(2, i)^2);
 
     % Loss factor (separate swirl and axial components)
     lossFact = prandtlloss(OpRot.Rot.nBlades, r, OpRot.Rot.r0, phi, lossType);

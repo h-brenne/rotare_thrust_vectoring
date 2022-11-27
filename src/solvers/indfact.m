@@ -54,12 +54,13 @@ function indfact(OpRot, Mod)
     INIT_VI = 1; % Initial guess for the axial induced velocity (for when Airspeed=0), [m/s]
 
     % Abbreviations
-    airspeed = OpRot.Op.speed;
+    upVelAx = OpRot.upstreamVel(1, :);
+    upVelTg = OpRot.upstreamVel(2, :);
 
     % Initial guesses
-    if OpRot.Op.speed ~= 0
+    if any(upVelAx) ~= 0
         a = INIT_AX_FACT * ones(1, OpRot.Rot.Bl.nElem);
-        v_ax = (1 + a) * airspeed;
+        v_ax = (1 + a) * upVelAx;
     else
         v_ax = INIT_VI * ones(1, OpRot.Rot.Bl.nElem);
     end
@@ -74,8 +75,6 @@ function indfact(OpRot, Mod)
 
         % Axial and angular velocities at the blade element
         v_ang = (1 - b) .* OpRot.ElPerf.tgSpeed;
-        % [DEBUG]: SQRT(PI) GIVES BETTER MATCH?
-        % relVel = sqrt(sqrt(pi)) * sqrt(v_ax.^2 + v_ang.^2);
         relVel = sqrt(v_ax.^2 + v_ang.^2);
 
         % Angles
@@ -92,7 +91,7 @@ function indfact(OpRot, Mod)
         K_P = 1 - (1 - lossFact) .* sin(phi);
 
         % Analytical solution to the momentum and blade element equations.
-        if airspeed == 0
+        if all(upVelAx) == 0 % FIXME: Poor solution
             v_ax = sqrt(((relVel.^2 * OpRot.Rot.nBlades .* OpRot.Rot.Bl.chord) .* ...
                          (cl .* cos(phi) - cd .* sin(phi))) ./ ...
                         (8 * pi * OpRot.Rot.Bl.y .* K_T));
@@ -102,13 +101,13 @@ function indfact(OpRot, Mod)
         else
             dummy = ((relVel.^2 * OpRot.Rot.nBlades .* OpRot.Rot.Bl.chord) .* ...
                      (cl .* cos(phi) - cd .* sin(phi))) ./ ...
-                (8 * pi * OpRot.Rot.Bl.y .* airspeed.^2 .* K_T);
+                (8 * pi * OpRot.Rot.Bl.y .* upVelAx.^2 .* K_T);
 
             a = (-1 + sqrt(1 + 4 .* dummy)) / 2;
             b = ((relVel.^2 * OpRot.Rot.nBlades .* OpRot.Rot.Bl.chord) .* ...
                  (cl .* sin(phi) + cd .* cos(phi))) ./ ...
-                (8 * pi * OpRot.Rot.Bl.y.^2 .* airspeed .* (1 + a) .* OpRot.Op.omega .* K_P);
-            v_ax = (1 + a) * airspeed;
+                (8 * pi * OpRot.Rot.Bl.y.^2 .* upVelAx .* (1 + a) .* OpRot.Op.omega .* K_P);
+            v_ax = (1 + a) * upVelAx;
         end
 
         % Use relaxation to faciliate convergence of nonlinear system
@@ -129,7 +128,7 @@ function indfact(OpRot, Mod)
     end
 
     % Update values in ElemPerf
-    OpRot.ElPerf.indVelAx = v_ax - airspeed;
+    OpRot.ElPerf.indVelAx = v_ax - upVelAx;
     OpRot.ElPerf.indVelTg = b .* OpRot.ElPerf.tgSpeed;
     OpRot.ElPerf.inflAngle = phi;
     OpRot.ElPerf.alpha = alpha;

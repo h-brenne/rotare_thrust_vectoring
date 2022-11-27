@@ -48,9 +48,11 @@ function indvel(OpRot, Mod)
     % Defaults and constants
     % FSOLVE_OPTS = optimoptions('fsolve', 'Display', 'none');
 
-    % DEFAULTS AND CONSTANTS
+    % Abbreviations
     vw = ones(1, OpRot.Rot.Bl.nElem) * OpRot.Op.speed + 1; % Axial vel in the slipstream
     uw = zeros(size(vw)); % Tangential vel in the slipstream
+    upVelAx = OpRot.upstreamVel(1, :);
+    upVelTg = OpRot.upstreamVel(2, :);
 
     % Solve iteratively
     loopCount = 0;
@@ -62,8 +64,8 @@ function indvel(OpRot, Mod)
         uw_old = uw;
 
         % Compute the velocity components at the propeller disk
-        v = (OpRot.Op.speed + vw) / 2;
-        u = OpRot.ElPerf.tgSpeed - uw / 2;
+        v = (upVelAx + vw) / 2;
+        u = -upVelTg + OpRot.ElPerf.tgSpeed - uw / 2;
 
         % Local mass flow rate
         dmdot = 2 * pi * OpRot.Op.Flow.rho * OpRot.Rot.Bl.y * OpRot.Rot.Bl.dy .* v;
@@ -93,8 +95,8 @@ function indvel(OpRot, Mod)
         dFu = dL .* sin(phi) + dD .* cos(phi);
 
         % Final system to solve for v and u
-        vw = OpRot.Op.speed + dFa ./ dmdot ./ K_T;
-        uw = dFu ./ dmdot ./ K_P;
+        vw = upVelAx + dFa ./ dmdot ./ K_T;
+        uw = dFu ./ dmdot ./ K_P; % FIXME: what to do with upvelTg?
 
         % Use relaxation to faciliate convergence of nonlinear system
         vw = vw_old * (1 - Mod.Num.relax) + vw * Mod.Num.relax;
@@ -116,8 +118,8 @@ function indvel(OpRot, Mod)
     % Update values in ElemPerf
     OpRot.ElPerf.inflAngle = phi;
     OpRot.ElPerf.alpha = alpha;
-    OpRot.ElPerf.indVelAx = v - OpRot.Op.speed;
-    OpRot.ElPerf.indVelTg = uw / 2;
+    OpRot.ElPerf.indVelAx = v - upVelAx;
+    OpRot.ElPerf.indVelTg = uw / 2; % FIXME: what to do with upvelTg?
 
 end
 

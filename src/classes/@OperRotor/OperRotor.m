@@ -42,6 +42,10 @@ classdef OperRotor < handle
     % Issues: https://gitlab.uliege.be/thlamb/rotare/-/issues
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    properties
+        upstreamVel (2, :) double % Upstream velocity
+    end
+
     properties (SetAccess = private)
         Rot  (1, 1) Rotor % Rotor geometry
         Op   (1, 1) Oper  % Current operating conditions
@@ -89,6 +93,8 @@ classdef OperRotor < handle
                 % Instantiate basic operating variables for elements
                 self.ElPerf = ElemPerf(Rot, Op);
 
+                % Set default upstream velocity to the freestream velocity
+                self.upstreamVel = ones(2, Rot.Bl.nElem) .* [Op.speed; 0];
             end
         end
 
