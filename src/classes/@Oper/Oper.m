@@ -53,10 +53,10 @@ classdef Oper < handle
     properties (GetAccess = public, SetAccess = protected)
         alt   (1, 1) double {mustBeNonnegative} % Altitude, [m]
         speed (1, 1) double {mustBeNonnegative} % Axial speed, [m/s]
-        rpm   (1, 1) double {mustBeNonnegative} % Rotor rotation speed, [rpm]
-        rps   (1, 1) double {mustBeNonnegative} % Rotor rotation speed, [rps]
-        omega (1, 1) double {mustBeNonnegative} % Rotor rotation speed, [rad/s]
-        coll  (1, 1) double {mustBeFinite}      % Rotor collective pitch, [rad]
+        rpm   (:, 1) double {mustBeNonnegative} % Rotor rotation speed, [rpm]
+        rps   (:, 1) double {mustBeNonnegative} % Rotor rotation speed, [rps]
+        omega (:, 1) double {mustBeNonnegative} % Rotor rotation speed, [rad/s]
+        coll  (:, 1) double {mustBeFinite}      % Rotor collective pitch, [rad]
         Flow  (1, 1) Flow % Flow object, describing the external flow properties
     end
 

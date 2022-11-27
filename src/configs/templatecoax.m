@@ -33,7 +33,7 @@ if strcmp(Sim.Misc.appli, 'heli')
 else
     rotorShift = [-1, 0, 0];
 end
-Blade(2).hubPos = Blade(1).hubPos - rotorShift; % Shift second rotor w.r.t the application type
+Blade(2).hubPos = Blade(1).hubPos + rotorShift; % Shift second rotor w.r.t the application type
 
 % ==================================================================================================
 % ===================================== Operating points ===========================================

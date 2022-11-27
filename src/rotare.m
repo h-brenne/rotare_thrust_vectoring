@@ -72,15 +72,22 @@ function [OpRot] = rotare(configFile)
     % Validate the config file and load the sanitized structures
     [Sim, Mod, Uflow, Uop, Uaf, Ublade] = validateconfig(configFile);
 
+    if Sim.Out.console
+        fprintf('Running Rotare with file %s\n\n', configFile);
+    end
+
     % Construct objects
     Af = createairfoils(Uaf);
-    Rot = Rotor(Ublade.nBlades, Af, Ublade.radius, Ublade.chord, Ublade.twist, Ublade.iAirfoil, ...
-                Ublade.nElem);
-    Rot.name = Sim.Save.filename;
-    Rot.pitchRef = Ublade.pitchRef;
-    Rot.appli = Sim.Misc.appli;
+    for i = numel(Ublade):-1:1
+        Rot(i) = Rotor(Ublade(i).nBlades, Af, Ublade(i).radius, Ublade(i).chord, ...
+                       Ublade(i).twist, Ublade(i).iAirfoil, Ublade(i).nElem, Ublade(i).hubPos);
+        Rot(i).name = Sim.Save.filename;
+        Rot(i).pitchRef = Ublade(i).pitchRef;
+        Rot(i).appli = Sim.Misc.appli;
+    end
 
     if Sim.Out.show3D
+        % TODO: Allow plot for multiple rotors
         Rot.plot('all', Sim.Out.hubType);
     end
 
@@ -88,6 +95,8 @@ function [OpRot] = rotare(configFile)
     %| pragma Justify (metric, "cnest", "can't really be refactored");
     for iSolv = 1:length(Mod.solvers)
         Mod.solver = Mod.solvers{iSolv};
+
+        printperfs(Sim.Out, 'hline');
 
         % ==========================================================================================
         % =================================== BEMT resolution ======================================
@@ -99,30 +108,29 @@ function [OpRot] = rotare(configFile)
 
         for iAlt = 1:length(Uop.altitude)
             for iSpeed = 1:length(Uop.speed)
-                for iRpm = 1:length(Uop.rpm)
-                    for iColl = 1:length(Uop.collective)
+                for iRpm = 1:size(Uop.rpm, 2)
+                    for iColl = 1:size(Uop.collective, 2)
 
                         tStart = tic; % Start timer for CPU time
 
-                        % Set current operating conditions and update fluid properties
-                        Op = Oper(Uop.altitude(iAlt), Uop.speed(iSpeed), Uop.rpm(iRpm), ...
-                                  Uop.collective(iColl), Uflow.fluid);
-
-                        % Print current operating conditions in the console
-                        printperfs(Sim.Out, 'header', ...
-                                   Mod.solver, Op.alt, Op.speed, Op.rpm, Op.coll);
-
-                        % Instantiate operating rotor object
                         for i = length(Rot):-1:1 % Reverse loop to improve pre-alloc
-                            OpRot(i, iOperPoint) = OperRotor(Rot(i), Op);
-                            OpRot(i, iOperPoint).nonDim = Sim.Misc.nonDim;
+
+                            % Set current operating conditions and update fluid properties
+                            Op(i) = Oper(Uop.altitude(iAlt), Uop.speed(iSpeed), ...
+                                         Uop.rpm(i, iRpm), Uop.collective(i, iColl), Uflow.fluid);
+
+                            % Instantiate operating rotor object
+                            OpRot(iOperPoint, i) = OperRotor(Rot(i), Op(i));
+                            OpRot(iOperPoint, i).nonDim = Sim.Misc.nonDim;
                         end
+                        % Print current operating conditions in the console
+                        printperfs(Sim.Out, 'header', Mod.solver, Op);
 
                         % Run BEMT solver
-                        bemt(OpRot(:, iOperPoint), Mod);
+                        bemt(OpRot(iOperPoint, :), Mod);
 
                         % Keep track of CPU time for the solution
-                        OpRot(i, iOperPoint).cpuTime =  toc(tStart);
+                        OpRot(iOperPoint, i).cpuTime =  toc(tStart);
 
                         iOperPoint = iOperPoint + 1;
 
@@ -132,7 +140,6 @@ function [OpRot] = rotare(configFile)
         end
 
         if Sim.Out.console
-            disp('=============');
             disp(' ');
         end
 
@@ -160,14 +167,34 @@ function printperfs(Opts, type, varargin)
     if Opts.console
         switch type
             case 'header'
-                narginchk(7, 7);
-                fprintf(['|| %s || Altitude: %0.1f m  |  ' ...
-                         'Speed: %0.1f m/s  |  ' ...
-                         'RPM: %0.01f rpm  |  ' ...
-                         'Collective: %0.01f deg\n\n'], ...
-                        varargin{1}, varargin{2}, varargin{3}, varargin{4}, rad2deg(varargin{5}));
+                narginchk(4, 4);
+                solver = varargin{1};
+                Op = varargin{2};
+
+                fprintf(['|| %8s || Altitude: %7.1f m  |  ' ...
+                         'Speed: %5.1f m/s  |  ' ...
+                         'RPM: %7.1f rpm  |  ' ...
+                         'Collective: %4.01f deg\n'], ...
+                        solver, Op(1).alt, Op(1).speed, Op(1).rpm, ...
+                        rad2deg(Op(1).coll));
+
+                for i = 2:numel(Op)
+                    fprintf(['||          ||                      |  ' ...
+                             '                  |  ' ...
+                             '     %7.1f rpm  |  ' ...
+                             '            %4.01f deg\n'], ...
+                            Op(i).rpm, rad2deg(Op(i).coll));
+                end
+                fprintf(['||          ||                      |  ' ...
+                         '                  |  ' ...
+                         '                  |\n']);
 
             case 'results'
+
+            case 'hline'
+                fprintf('=============================================================');
+                fprintf('========================================\n');
+
             otherwise
                 error('ROTARE:printperfs:UnknownType', ...
                       'Type must be ''header'' or ''results''. Found %s', type);
