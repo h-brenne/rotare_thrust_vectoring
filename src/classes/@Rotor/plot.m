@@ -46,8 +46,6 @@ function plot(self, varargin)
     % <a href="https://gitlab.uliege.be/thlamb/rotare-doc">Complete documentation (online)</a>
 
     % ----------------------------------------------------------------------------------------------
-    % TODO: Add an orientation to the rotor (clockwise or counter-clockwise)
-    % ----------------------------------------------------------------------------------------------
     % (c) Copyright 2022 University of Liege
     % Author: Thomas Lambert <t.lambert@uliege.be>
     % ULiege - Aeroelasticity and Experimental Aerodynamics
@@ -113,7 +111,7 @@ function plot(self, varargin)
         dataMat = repmat(data(i, :), length(coords(:, 1)), 1);
 
         % Scale elements and twist them properly to create the correct blade
-        Blade = gettrueposition(Rot.Bl, coords, chordMat, DEF);
+        Blade = gettrueposition(Rot.Bl, coords, chordMat, Rot.spinDir, DEF);
 
         % Plot blade and rotor
         if any(strcmp(type, {'all', 'blade'}))
@@ -193,11 +191,11 @@ function coords = normalizeafcoord(self, DEF)
 
 end
 
-function Blade = gettrueposition(Elem, coords, chordMat, DEF)
+function Blade = gettrueposition(Elem, coords, chordMat, spinDir, DEF)
     % GETTRUEPOSITION  Returns the true position of the blade elements after scaling and twisting
 
     % Scale the blade to actual chord and span
-    geomX = repmat(coords(:, 1) - DEF.PITCH_AXIS, 1, length(Elem.chord)) .* chordMat;
+    geomX = spinDir * repmat(coords(:, 1) - DEF.PITCH_AXIS, 1, length(Elem.chord)) .* chordMat;
     geomY = repmat(Elem.y, length(coords(:, 1)), 1);
     geomZ = zeros(size(geomX));
     for i = 1:length(Elem.chord)
@@ -206,7 +204,7 @@ function Blade = gettrueposition(Elem, coords, chordMat, DEF)
 
     % Pitch the airfoil according to the correct local twist angle
     for i = 1:length(Elem.chord)
-        rotY = roty(rad2deg(Elem.twist(i)));
+        rotY = roty(spinDir * rad2deg(Elem.twist(i)));
         dummy = rotY * [geomX(:, i), geomY(:, i), geomZ(:, i)]';
         Blade.x(:, i) = dummy(1, :);
         Blade.y(:, i) = dummy(2, :);

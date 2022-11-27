@@ -84,6 +84,7 @@ function [OpRot] = rotare(configFile)
         Rot(i).name = Sim.Save.filename;
         Rot(i).pitchRef = Ublade(i).pitchRef;
         Rot(i).appli = Sim.Misc.appli;
+        Rot(i).spinDir = Ublade(i).spinDir;
     end
 
     if Sim.Out.show3D

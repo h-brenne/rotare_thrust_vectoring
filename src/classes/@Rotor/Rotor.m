@@ -14,6 +14,7 @@ classdef Rotor < handle
     %   name     - Rotor name (not used)
     %   nBlades  - Number of blades, [-]
     %   position - Rotor hub position, [m]
+    %   spinDir  - Rotor spin direction (1 = ccw, -1 = cw), [-]
     %   Bl       - Blade discretization for the current rotor, (Blade)
     %   Af       - Airfoils used for the current rotor, (Airfoil)
     %   solidity - Rotor solidity, [-]
@@ -67,6 +68,7 @@ classdef Rotor < handle
         name (1, :) {char, string} = 'Unnamed' % Rotor name
         pitchRef (1, :) char = 'zerolift'       % Pitch reference line ('zerolift', 'chordline')
         appli (1, :) char = 'helicopter' % Application ('helicopter', 'propeller', 'windturbine')
+        spinDir (1, 1) double = 1        % Rotor spin direction, [-]
     end
 
     % Rotor geometric properties and reference to other objects handle

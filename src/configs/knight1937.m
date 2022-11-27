@@ -114,4 +114,4 @@ Blade.nElem = 100;  % Number of blade elements, [-]
 
 % Rotor base position
 Blade.hubPos = [0, 0, 0]; % Rotor center position (used for coaxial rotors), [m]
-Blade.spinDir = 1;        % Rotor spin direction (used for coaxial rotors; 1 = cw, -1 = ccw)
+Blade.spinDir = 1;        % Rotor spin direction (used for coaxial rotors; 1 = ccw, -1 = cw)
