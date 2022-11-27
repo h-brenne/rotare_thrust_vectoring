@@ -44,8 +44,8 @@ function bemt(OpRot, Mod)
     for i = 2:length(OpRot)
 
         % [FIXME] Not quite correct. Depends on the spacing between the two rotors
-        OpRot(i).upstreamVel = OpRot(i).upstreamVel + ...
-            [2 * OpRot(i - 1).ElPerf.indVelAx; 2 * OpRot(i - 1).ElPerf.indVelTg];
+        inducedVel = [2 * OpRot(i - 1).ElPerf.indVelAx; 2 * OpRot(i - 1).ElPerf.indVelTg];
+        OpRot(i).upstreamVel = wakecontraction([OpRot(i).Op.speed; 0], inducedVel, sqrt(2) / 2);
 
         bemtsinglerot(OpRot(i), Mod);
 
