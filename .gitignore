@@ -10,6 +10,7 @@ results/
 # Ignore all configs by default and only add some to be kept
 src/configs/*
 !src/configs/template.m
+!src/configs/templatecoax.m
 !src/configs/caradonna1981.m
 !src/configs/knight1937.m
 

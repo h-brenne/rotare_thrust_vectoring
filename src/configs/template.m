@@ -1,4 +1,4 @@
-% TEMPLATE Template configuration file for Rotare
+% TEMPLATE Template configuration file for Rotare.
 %   This file gather all options, parameters and configurations needed for a complete simulation
 %   with Rotare.
 %   It specifies the simulation parameters, the models, the blade/rotor geometry, the operation
@@ -82,9 +82,6 @@ Sim.Misc.appli  = 'heli'; % Type of application ('helicopter', 'propeller', 'win
 % ==================================== Models and solvers ==========================================
 % ==================================================================================================
 
-% System
-Mod.Syst.nRotors = 1;      % Number of rotors (if >1, rotors are coaxial)
-
 % Solvers
 Mod.solvers = 'stahlhut';  % BEMT Solver ('leishman', 'indfact', 'indvel', 'stahlhut', 'all')
 
@@ -114,9 +111,9 @@ Flow.fluid = 'air';  % Fluid ('air', 'seawater', 'freshwater')
 % Note that the code will loop on every combination of these fours. So the total number of
 % simulations can be very large if you want lots of operating points.
 
-Op.speed      = 2:2:10;             % (Axial) Velocity, [m/s]
+Op.speed      = 2:5:12;             % (Axial) Velocity, [m/s]
 Op.collective = [2, 5, 8];          % Collective pitch, [deg]
-Op.rpm        = [100, 1300, 1500];  % Rotor angular velocity, [RPM]
+Op.rpm        = [1000, 1300];  % Rotor angular velocity, [RPM]
 Op.altitude   = 0;                  % Flight altitude (only used if Flow.fluid = 'air'), [m]
 
 % ==================================================================================================
@@ -168,4 +165,4 @@ Blade.iAirfoil = [1, 2, 2];         % Index of the airfoil to use for the base s
 Blade.nElem = 100;  % Number of blade elements, [-]
 
 % Rotor base position
-Blade.hubPos = [0, 0, 0]; % Rotor center position (used for coaxial rotors)
+Blade.hubPos = [0, 0, 0]; % Rotor center position (used for coaxial rotors), [m]

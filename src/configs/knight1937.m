@@ -45,9 +45,6 @@ Sim.Misc.appli  = 'heli'; % Type of application ('helicopter', 'propeller', 'win
 % ==================================== Models and solvers ==========================================
 % ==================================================================================================
 
-% System
-Mod.Syst.nRotors = 1;    % Number of rotors (if >1, rotors are coaxial)
-
 % Solvers
 Mod.solvers = {'all'};   % BEMT Solver ('leishman', 'indfact', 'indvel', 'stahlhut', 'all')
 
@@ -116,4 +113,4 @@ Blade.iAirfoil = [1, 1];           % Index of the airfoil to use for the base st
 Blade.nElem = 100;  % Number of blade elements, [-]
 
 % Rotor base position
-Blade.hubPos = [0, 0, 0]; % Rotor center position (used for coaxial rotors)
+Blade.hubPos = [0, 0, 0]; % Rotor center position (used for coaxial rotors), [m]
