@@ -46,6 +46,8 @@ function plot(self, varargin)
     % <a href="https://gitlab.uliege.be/thlamb/rotare-doc">Complete documentation (online)</a>
 
     % ----------------------------------------------------------------------------------------------
+    % TODO: Add an orientation to the rotor (clockwise or counter-clockwise)
+    % ----------------------------------------------------------------------------------------------
     % (c) Copyright 2022 University of Liege
     % Author: Thomas Lambert <t.lambert@uliege.be>
     % ULiege - Aeroelasticity and Experimental Aerodynamics
@@ -72,85 +74,97 @@ function plot(self, varargin)
                         'lv-haack', 'vonkarman'};
     DEF.CONE_RAD = 1.2; % Cone radius multiplier ( val * Rot.cutout)
     DEF.CONE_LEN = 2.45; % Cone length multiplier ( val * cone_radius)
-    CONE_COLOR = [0 0.4470 0.7410];
+    DEF.CONE_COLOR = [0 0.4470 0.7410];
 
     % Input validation
-    valData = @(x) validateattributes(x, {'numeric'}, ...
-                                      {'row', 'nonempty', 'numel', length(self.Bl.chord)});
+    valData = @(x) validateattributes(x, ...
+                                      {'numeric'}, ...
+                                      {'2D', 'nonempty', ...
+                                       'size', [numel(self), length(self.Bl.chord)]});
     p = inputParser;
     p.FunctionName = 'plot';
     addOptional(p, 'type', 'all', @(x) any(validatestring(x, DEF.ALLOWED_TYPES)));
     addOptional(p, 'hubType', 'none', @(x) any(validatestring(x, DEF.ALLOWED_HUBS)));
-    addOptional(p, 'data', zeros(size(self.Bl.chord)), valData);
+    addOptional(p, 'data', zeros(numel(self), length(self(1).Bl.chord)), valData);
     parse(p, varargin{:});
     type = p.Results.type;
     hubType = p.Results.hubType;
     data = p.Results.data;
 
     % -------------------------------------------
-    % Normalize airfoil coordinates so they all have the same X components and number of points
-    coords = normalizeafcoord(self, DEF);
 
-    % Create matrices to scale and apply color appropriately
-    chordMat = repmat(self.Bl.chord, length(coords(:, 1)), 1);
-    dataMat = repmat(data, length(coords(:, 1)), 1);
-
-    % Scale elements and twist them properly to create the correct blade
-    Blade = gettrueposition(self.Bl, coords, chordMat, DEF);
-
-    % Plot blade and rotor
-    if any(strcmp(type, {'all', 'blade'}))
-
-        figname = 'Single Blade';
-        figure('PaperUnits', 'inches', 'PaperPosition', [0 0 1280 1024] / 250, 'Name', figname);
-        hAx = axes('NextPlot', 'add');
-        plotblade(Blade, dataMat, hAx, DEF);
-        setgca();
+    if numel(self) > 1 && any(strcmp(type, {'all', 'rotor'}))
+        figname = 'Complete system';
+        hFig = figure('PaperUnits', 'inches', 'PaperPosition', [0 0 1280 1024] / 250, ...
+                      'Name', figname);
+        title(figname);
+        hold on;
+        hAxAll = axes('NextPlot', 'add');
     end
 
-    if any(strcmp(type, {'all', 'rotor'}))
+    for i = 1:numel(self)
 
-        % Generate rest of the rotor from first blade
-        Blades = makerotorblades(self, Blade);
+        Rot = self(i);
+        % Normalize airfoil coordinates so they all have the same X components and number of points
+        coords = normalizeafcoord(Rot, DEF);
 
-        figname = 'Full Rotor';
-        figure('PaperUnits', 'inches', 'PaperPosition', [0 0 1280 1024] / 250, 'Name', figname);
-        hAx = axes('NextPlot', 'add');
-        for iBl = 1:self.nBlades
-            plotblade(Blades(iBl), dataMat, hAx, DEF);
-        end
+        % Create matrices to scale and apply color appropriately
+        chordMat = repmat(Rot.Bl.chord, length(coords(:, 1)), 1);
+        dataMat = repmat(data(i, :), length(coords(:, 1)), 1);
 
-        % Plot rotor cone
-        if ~strcmp(hubType, 'none')
-            % Cone radius and length
-            coneRad = DEF.CONE_RAD * self.cutout;
-            coneLen = DEF.CONE_LEN * coneRad;
+        % Scale elements and twist them properly to create the correct blade
+        Blade = gettrueposition(Rot.Bl, coords, chordMat, DEF);
 
-            % Create nose cone and position it properly
-            Nc = NoseCone(hubType, coneRad, coneLen);
-            Nc.pos = self.position; % Cone at the center of the rotor
-            % Offset the cone so the blade falls in the middle and not at the tip
-            Nc.offset = min(min(Blade.z(:, 1:DEF.SPACING:end)));
+        % Plot blade and rotor
+        if any(strcmp(type, {'all', 'blade'}))
 
-            % Place cone vertically for propellers and windturbines
-            if ~(strcmp(self.appli, 'helicopter'))
-                Nc.rotY = -90;
+            if numel(self) > 1
+                figname = sprintf('Rotor %d, Single Blade', i);
+            else
+                figname = 'Single Blade';
             end
-
-            % Plot the nose cone
-            Nc.plot(CONE_COLOR);
+            figure('PaperUnits', 'inches', 'PaperPosition', [0 0 1280 1024] / 250, 'Name', figname);
+            title(figname);
+            hAx = axes('NextPlot', 'add');
+            plotblade(Blade, dataMat, hAx, DEF);
+            setgca();
         end
 
-        setgca();
+        if any(strcmp(type, {'all', 'rotor'}))
 
-        % Workaround for axis equal and square at the same time
-        axLim = [xlim; ylim; zlim];
-        xlim([min(axLim(:, 1)), max(axLim(:, 2))]);
-        ylim([min(axLim(:, 1)), max(axLim(:, 2))]);
-        zlim([min(axLim(:, 1)), max(axLim(:, 2))]);
+            % Generate rest of the rotor from first blade
+            Blades = makerotorblades(Rot, Blade);
 
+            if numel(self) > 1
+                figname = sprintf('Rotor %d', i);
+            else
+                figname = 'Full rotor';
+            end
+            figure('PaperUnits', 'inches', 'PaperPosition', [0 0 1280 1024] / 250, 'Name', figname);
+            title(figname);
+            hAx = axes('NextPlot', 'add');
+
+            plotrotor(Rot, Blades, dataMat, hubType, hAx, Blade.z, DEF);
+            setgca();
+
+            % Workaround for axis equal and square at the same time
+            axLim = [xlim; ylim; zlim];
+            xlim([min(axLim(:, 1)), max(axLim(:, 2))]);
+            ylim([min(axLim(:, 1)), max(axLim(:, 2))]);
+            zlim([min(axLim(:, 1)), max(axLim(:, 2))]);
+
+            % Plot complete system if applicable
+            if numel(self) > 1
+                figure(hFig);
+                plotrotor(Rot, Blades, dataMat, hubType, hAxAll, Blade.z, DEF);
+                setgca();
+                axLim = [xlim; ylim; zlim];
+                xlim([min(axLim(:, 1)), max(axLim(:, 2))]);
+                ylim([min(axLim(:, 1)), max(axLim(:, 2))]);
+                zlim([min(axLim(:, 1)), max(axLim(:, 2))]);
+            end
+        end
     end
-
 end
 
 % --------------------------------------------------------------------------------------------------
@@ -245,12 +259,41 @@ function Blades = makerotorblades(self, Blade)
 end
 
 function plotblade(Blade, dataMat, handleAxis, DEF)
-    % PLOTBLADE  Plot a single blade (color surface + outline)
+    % PLOTBLADE Plot a single blade (color surface + outline)
 
     surf(Blade.x, Blade.y, Blade.z, dataMat, 'EdgeColor', 'none', 'Parent', handleAxis);
     plot3(Blade.x(:, 1:DEF.SPACING:end), Blade.y(:, 1:DEF.SPACING:end), ...
           Blade.z(:, 1:DEF.SPACING:end), ...
           '-k', 'Parent', handleAxis);
+
+end
+
+function plotrotor(Rot, Blades, dataMat, hubType, handleAxis, zCone, DEF)
+    % PLOTROTOR Plot a single rotor with all its blades and its nose
+    for iBl = 1:Rot.nBlades
+        plotblade(Blades(iBl), dataMat, handleAxis, DEF);
+    end
+
+    % Plot rotor cone
+    if ~strcmp(hubType, 'none')
+        % Cone radius and length
+        coneRad = DEF.CONE_RAD * Rot.cutout;
+        coneLen = DEF.CONE_LEN * coneRad;
+
+        % Create nose cone and position it properly
+        Nc = NoseCone(hubType, coneRad, coneLen);
+        Nc.pos = Rot.position; % Cone at the center of the rotor
+        % Offset the cone so the blade falls in the middle and not at the tip
+        Nc.offset = min(min(zCone(:, 1:DEF.SPACING:end)));
+
+        % Place cone vertically for propellers and windturbines
+        if ~(strcmp(Rot.appli, 'helicopter'))
+            Nc.rotY = -90;
+        end
+
+        % Plot the nose cone
+        Nc.plot(DEF.CONE_COLOR);
+    end
 
 end
 

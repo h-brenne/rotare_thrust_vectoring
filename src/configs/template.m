@@ -66,7 +66,7 @@ Sim.Save.timeFormat = 'YYYYmmddTHHMM'; % Format for the time code
 
 % Outputs
 Sim.Out.showPlots = true;  % Show all plots (forces, angles, speed, ...)
-Sim.Out.show3D    = false;  % Show the 3D view of the whole rotor
+Sim.Out.show3D    = true;  % Show the 3D view of the whole rotor
 Sim.Out.hubType   = 'tangent_ogive';  % Hub (nose cone) type on the 3D view (see docs for list)
 Sim.Out.console   = true;  % Print the final results in console
 Sim.Out.verbosity = 'min'; % Verbosity level of the console output ('min', 'all')

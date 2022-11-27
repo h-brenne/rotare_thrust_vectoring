@@ -87,7 +87,6 @@ function [OpRot] = rotare(configFile)
     end
 
     if Sim.Out.show3D
-        % TODO: Allow plot for multiple rotors
         Rot.plot('all', Sim.Out.hubType);
     end
 
