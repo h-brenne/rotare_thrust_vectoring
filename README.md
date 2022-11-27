@@ -57,6 +57,8 @@ may not provide valid results in all situations.
 
 ### Download and install
 
+### Using git
+
 To download the latest working version of Rotare, simply run
 
 ```bash
@@ -65,10 +67,18 @@ git clone --recursive https://gitlab.uliege.be/thlamb/rotare
 
 Keep it updated using `git pull --recurse-submodules`.
 
-If you do not use `git`, the best way is to download the latest stable version
-of Rotare from the [release page][rotare-releases]. _Note that simply
-downloading the source code will likely not work as Rotare relies on separate
-libraries; so please use the Release page._
+### Direct download
+
+If you do not use `git`, the best way to obtain a working version of rotare is
+to download the latest stable version from the [release page][rotare-releases].
+
+_Note_: Rotare uses dependencies which are not directly hosted in this
+repository. Do not just downloading Rotare's repo this will not be enough!
+
+A special archive is available for each release in the the release page under
+the name `COMPLETE CODE`. This archive contains all the dependencies needed for
+the proper use of Rotare. Always download this one and not the automatically
+generated _source code_ archives.
 
 ## Documentation
 
@@ -129,5 +139,5 @@ The Rotare Software is provided under the [MIT license](LICENSE).
 [uliege-am]: https://www.am.uliege.be/
 [rotare-doc]: https://gitlab.uliege.be/thlamb/rotare-doc/
 [rotare-issues]: https://gitlab.uliege.be/thlamb/rotare/issues
-[rotare-releases]: https://gitlab.uliege.be/thlamb/rotare/releases
+[rotare-releases]: https://gitlab.uliege.be/thlamb/rotare/-/releases
 [aiaa-scitech]: https://www.aiaa.org/SciTech

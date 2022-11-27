@@ -6,7 +6,4 @@ and do not contain all dependencies.
 
 ## About this release
 
-_Initial commit_.
-
-- Single rotor in hover/axial flows
-- NOT YET VALIDATED
+(Nothing yet)

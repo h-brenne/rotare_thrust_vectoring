@@ -9,8 +9,6 @@ _This changelog will begin AFTER the first official public release of the code._
 
 ## [Unreleased]
 
-_Initial commit_: single rotor in hover/axial flows
-
 ### Added
 
 ### Changed
@@ -29,4 +27,4 @@ _Initial commit_: single rotor in hover/axial flows
 [keep_chglog]: <https://keepachangelog.com/en/1.0.0/>
 
 [Unreleased]: https://gitlab.uliege.be/thlamb/rotare/compare/0.0.0...main
-[0.0.0]: https://gitlab.uliege.be/thlamb/rotare/releases/tag/0.0.0
+[0.0.0]: https://gitlab.uliege.be/thlamb/rotare/-/releases/0.0.0
