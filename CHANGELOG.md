@@ -21,6 +21,12 @@ _Initial commit_: single rotor in hover/axial flows
 
 ### Fixed
 
+## [0.0.0] - 2022-11-27
+
+_Initial commit_: single rotor in hover/axial flows
+
 [sem_ver]:<https://semver.org/spec/v2.0.0.html>
 [keep_chglog]: <https://keepachangelog.com/en/1.0.0/>
-[Unreleased]: https://gitlab.uliege.be/thlamb/rotare
+
+[Unreleased]: https://gitlab.uliege.be/thlamb/rotare/compare/0.0.0...main
+[0.0.0]: https://gitlab.uliege.be/thlamb/rotare/releases/tag/0.0.0

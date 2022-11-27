@@ -1,6 +1,6 @@
 [submodule "validation/rotor-db"]
 	path = validation/rotor-db
-	url = git@gitlab.uliege.be:thlamb/rotor-db.git
+	url = ../rotor-db.git
 [submodule "src/libs/matlab_airfoil_toolbox"]
 	path = src/libs/matlab_airfoil_toolbox
-	url = git@gitlab.uliege.be:am-dept/matlab_airfoil_toolbox
+	url = ../../am-dept/matlab_airfoil_toolbox

@@ -3,42 +3,72 @@
 #   1. Ensure code quality
 #   2. Generate releases automatically
 
+variables:
+  GIT_SUBMODULE_STRATEGY: normal
+  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}"
 
 # Using the official Python Docker image as default
 default:
   image: python
+
+# Install miss_hit
+.miss_hit: &miss_hit
   before_script:
     - pip install miss_hit
 
 # Pipeline stages
 stages:
   - static analysis
+  - package
   - release
 
 # Static code analysis jobs via MISS_HIT
 style_check:
+  <<: *miss_hit
   stage: static analysis
   script:
     - mh_style . --fix
 
 metric_check:
+  <<: *miss_hit
   stage: static analysis
   script:
     - mh_metric . --ci
 
 lint_check:
+  <<: *miss_hit
   stage: static analysis
   script:
     - mh_lint .
 
-# TODO: Use git-archive-all and bake an archive that includes submodules
-release_job:
+# Create an archive of the code and its submodules
+archive_all:
+  stage: package
+  rules:
+    - if: $CI_COMMIT_TAG
+  before_script:
+    - pip install git-archive-all
+  script:
+    - echo "Packaging source with submodules"
+    - git-archive-all --force-submodules "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.zip"
+    - 'curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.zip" "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.zip"'
+    - git-archive-all --force-submodules "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz"
+    - 'curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz" "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz"'
+
+make_release:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs: ["archive_all"]
   rules:
-    - if: $CI_COMMIT_TAG  # Run when we create a new tag
+    - if: $CI_COMMIT_TAG
   script:
     - echo "Running release_job for $TAG"
   release:
     tag_name: '$CI_COMMIT_TAG'
-    description: 'Automatic release for version $CI_COMMIT_TAG'
+    description: ./RELEASE.md
+    assets:
+      links:
+        - name: 'COMPLETE CODE: ${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.zip'
+          url: "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.zip"
+        - name: 'COMPLETE CODE: ${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz'
+          url: "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz"
