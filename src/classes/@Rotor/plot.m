@@ -227,7 +227,7 @@ function Blades = makerotorblades(self, Blade)
     if ~(strcmp(self.appli, 'helicopter'))
         for iBl = 1:self.nBlades
             for i = 1:length(Blade.x(:, 1))
-                dummy = roty(90) * [Blades(iBl).x(i, :); Blades(iBl).y(i, :); Blades(iBl).z(i, :)];
+                dummy = roty(-90) * [Blades(iBl).x(i, :); Blades(iBl).y(i, :); Blades(iBl).z(i, :)];
                 Blades(iBl).x(i, :) = dummy(1, :);
                 Blades(iBl).y (i, :) = dummy(2, :);
                 Blades(iBl).z(i, :) = dummy(3, :);
