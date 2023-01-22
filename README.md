@@ -1,3 +1,18 @@
+# WORK IN PROGRESS
+<div align="center">
+<span style="color:red">Rotare is still UNDER DEVELOPMENT. <br/>
+The first stable official release will be version 1.0.0.</span>
+
+A proper roadmap will be posted soon with the planned release date of the various
+features. Support will not be provided as long as version 1.0.0 is not released.
+</div>
+
+<div align="center">
+{- The code is not yet fully validated. Use with caution. -}
+</div>
+
+-----
+
 ![Rotare-title](media/rotare-title.jpg)
 
 **Rotare** is a feature-rich and open-source implementation of the Blade Element
@@ -13,14 +28,10 @@ later extended to add different solvers, many extensions to the base methodology
 and to support more complex geometries. It is now a complete analysis tool that
 can be used in a wide range of applications outside of academia.
 
-<div align="center">
-  {- WARNING: The code is not yet fully validated. Use with caution. -}
-</div>
-
 ## Features
 
-A more exhaustive list of features can be found in [the complete
-documentation][rotare-doc].
+A more exhaustive list of features can be found in the complete
+documentation that will be made available with version 1.0.0.
 
 ### Geometry
 
@@ -107,10 +118,6 @@ contact me directly at tlambert@uliege.be.
 
 ## Other
 
-This software will be presented at the [AIAA SciTech 2023 forum][aiaa-scitech]
-in National Harbor, MD (USA). A link to the conference proceeding and the slides
-of the presentation will be provided after the talk.
-
 ### Acknowledgments
 
 We would like to thank Theo Delvaux for his initial implementation of the
@@ -120,13 +127,13 @@ for his work on the implementation of coaxial rotors during his master thesis.
 Their excellent contributions facilitated considerably the final implementation
 of these features in Rotare.
 
-## Contributions
+### Contributions
 
 Any contribution or feature-request is welcomed. Feel free to use the [issue
 tracker][rotare-issues] if you want to discuss interesting additions to this
 software.
 
-## License
+### License
 
 The Rotare Software is provided under the [MIT license](LICENSE).
 
