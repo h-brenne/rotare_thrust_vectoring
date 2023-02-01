@@ -3,8 +3,9 @@
 <span style="color:red">Rotare is still UNDER DEVELOPMENT. <br/>
 The first stable official release will be version 1.0.0.</span>
 
-A proper roadmap will be posted soon with the planned release date of the various
-features. Support will not be provided as long as version 1.0.0 is not released.
+A proper roadmap will be posted soon with the planned release date of the
+various features. Support will not be provided as long as version 1.0.0 is not
+released.
 </div>
 
 <div align="center">
@@ -19,8 +20,9 @@ features. Support will not be provided as long as version 1.0.0 is not released.
 Momentum Theory in MATLAB.
 
 This software can be used for the analysis and the design of all kinds of
-rotors: helicopters main/tail rotors, aircraft propellers, wind/tidal turbines,
-etc.
+rotors: helicopters main/tail rotors, aircraft propellers, etc.
+Future versions will also be able to model wind/tidal turbines as well as rotors
+in autorotation.
 
 Rotare was developed primarily for teaching purposes at the [University of
 Liege][uliege-am] (Belgium) by Thomas Lambert during his Ph.D. The code was
@@ -33,11 +35,17 @@ can be used in a wide range of applications outside of academia.
 A more exhaustive list of features can be found in the complete
 documentation that will be made available with version 1.0.0.
 
+### Types of rotors
+- [x] Helicopters main or tail rotors
+- [x] Aircraft propellers
+- [ ] Wind/tidal turbines
+
 ### Geometry
 
 - [x] Varying airfoil along the blade
 - [x] Custom twist/taper
 - [ ] Coaxial rotors
+- [ ] Overlapping rotors
 
 ### Flow
 
@@ -78,17 +86,16 @@ If you do not use `git`, the best way to obtain a working version of rotare is
 to download the latest stable version from the [release page][rotare-releases].
 
 _Note_: Rotare uses dependencies which are not directly hosted in this
-repository. Do not just downloading Rotare's repo this will not be enough!
-
-A special archive is available for each release in the the release page under
-the name `COMPLETE CODE`. This archive contains all the dependencies needed for
-the proper use of Rotare. Always download this one and not the automatically
+repository. Simply downloading Rotare's repo will therefore not be enough!
+A special archive is available for each release in the release page under the
+name `COMPLETE CODE`. This archive contains all the dependencies needed for the
+proper use of Rotare. Always download this one and not the automatically
 generated _source code_ archives.
 
 ## Documentation
 
-Rotare comes with a [very detailed documentation][rotare-doc]. The documentation
-is made of two parts:
+Rotare comes with a detailed documentation (**LINK TO COME**). This
+documentation is made of two parts:
 
 1. The user manual
 2. The technical documentation
@@ -110,7 +117,7 @@ input, a meaningful error message is outputted to help you fix your
 configuration.
 
 If the error has nothing to do with your configuration, please check first the
-troubleshooting section of [the documentation][rotare-doc].
+troubleshooting section of the documentation.
 
 If you encounter any other issue with this code, please check [the issue
 tracker][rotare-issues] and fill a new issue report if applicable. You can also
