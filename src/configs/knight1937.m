@@ -4,18 +4,18 @@
 %
 % See also: template, rotare, validconfig.
 %
-% <a href="https://gitlab.uliege.be/thlamb/rotare-doc">Complete documentation (online)</a>
+% <a href="https://gitlab.uliege.be/rotare/documentation">Complete documentation (online)</a>
 
 % --------------------------------------------------------------------------------------------------
 % Ref: Knight and Hefner, "Static Thrust Analysis of the Lifting Airscrew". 1937. NASA. (TN-626)
 % --------------------------------------------------------------------------------------------------
-% (c) Copyright 2022 University of Liege
+% (c) Copyright 2022-2023 University of Liege
 % Author: Thomas Lambert <t.lambert@uliege.be>
 % ULiege - Aeroelasticity and Experimental Aerodynamics
 % MIT License
-% Repo: https://gitlab.uliege.be/thlamb/rotare
-% Docs: https://gitlab.uliege.be/thlamb/rotare-doc
-% Issues: https://gitlab.uliege.be/thlamb/rotare/-/issues
+% Repo: https://gitlab.uliege.be/rotare/rotare
+% Docs: https://gitlab.uliege.be/rotare/documentation
+% Issues: https://gitlab.uliege.be/rotare/rotare/-/issues
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Autosave

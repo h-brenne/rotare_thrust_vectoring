@@ -75,7 +75,7 @@ may not provide valid results in all situations.
 To download the latest working version of Rotare, simply run
 
 ```bash
-git clone --recursive https://gitlab.uliege.be/thlamb/rotare
+git clone --recursive https://gitlab.uliege.be/rotare/rotare
 ```
 
 Keep it updated using `git pull --recurse-submodules`.
@@ -145,7 +145,6 @@ software.
 The Rotare Software is provided under the [MIT license](LICENSE).
 
 [uliege-am]: https://www.am.uliege.be/
-[rotare-doc]: https://gitlab.uliege.be/thlamb/rotare-doc/
-[rotare-issues]: https://gitlab.uliege.be/thlamb/rotare/issues
-[rotare-releases]: https://gitlab.uliege.be/thlamb/rotare/-/releases
-[aiaa-scitech]: https://www.aiaa.org/SciTech
+[rotare-doc]: https://gitlab.uliege.be/rotare/documentation/
+[rotare-issues]: https://gitlab.uliege.be/rotare/rotare/issues
+[rotare-releases]: https://gitlab.uliege.be/rotare/rotare/-/releases

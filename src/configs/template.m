@@ -10,7 +10,7 @@
 %
 % Documentation:
 %   More details regarding this file and the possible configurations parameters can be found in the
-%   documentation of Rotare <a href="https://gitlab.uliege.be/thlamb/rotare-doc/">online</a>.
+%   documentation of Rotare <a href="https://gitlab.uliege.be/rotare/documentation/">online</a>.
 %
 % Input Validation:
 %   Before being used by Rotare, this configuration file will be passed through a validation
@@ -39,16 +39,16 @@
 %
 % See also: rotare, validconfig.
 %
-% <a href="https://gitlab.uliege.be/thlamb/rotare-doc">Complete documentation (online)</a>
+% <a href="https://gitlab.uliege.be/rotare/documentation">Complete documentation (online)</a>
 
 % --------------------------------------------------------------------------------------------------
-% (c) Copyright 2022 University of Liege
+% (c) Copyright 2022-2023 University of Liege
 % Author: Thomas Lambert <t.lambert@uliege.be>
 % ULiege - Aeroelasticity and Experimental Aerodynamics
 % MIT License
-% Repo: https://gitlab.uliege.be/thlamb/rotare
-% Docs: https://gitlab.uliege.be/thlamb/rotare-doc
-% Issues: https://gitlab.uliege.be/thlamb/rotare/-/issues
+% Repo: https://gitlab.uliege.be/rotare/rotare
+% Docs: https://gitlab.uliege.be/rotare/documentation
+% Issues: https://gitlab.uliege.be/rotare/rotare/-/issues
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % ==================================================================================================

@@ -19,16 +19,16 @@ function saveresults(Struct, Save, Mod)
     %
     % See also: rotare, template.
     %
-    % <a href="https://gitlab.uliege.be/thlamb/rotare-doc">Complete documentation (online)</a>
+    % <a href="https://gitlab.uliege.be/rotare/documentation">Complete documentation (online)</a>
 
     % ----------------------------------------------------------------------------------------------
-    % (c) Copyright 2022 University of Liege
+    % (c) Copyright 2022-2023 University of Liege
     % Author: Thomas Lambert <t.lambert@uliege.be>
     % ULiege - Aeroelasticity and Experimental Aerodynamics
     % MIT License
-    % Repo: https://gitlab.uliege.be/thlamb/rotare
-    % Docs: https://gitlab.uliege.be/thlamb/rotare-doc
-    % Issues: https://gitlab.uliege.be/thlamb/rotare/-/issues
+    % Repo: https://gitlab.uliege.be/rotare/rotare
+    % Docs: https://gitlab.uliege.be/rotare/documentation
+    % Issues: https://gitlab.uliege.be/rotare/rotare/-/issues
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Create directory for the results if it does not exist

@@ -12,16 +12,16 @@ function bool = verifyinstall
     %
     % See also: rotare, af_tools.Airfoil, af_tools.Polar.
     %
-    % <a href="https://gitlab.uliege.be/thlamb/rotare-doc">Complete documentation (online)</a>
+    % <a href="https://gitlab.uliege.be/rotare/documentation">Complete documentation (online)</a>
 
     % ----------------------------------------------------------------------------------------------
-    % (c) Copyright 2022 University of Liege
+    % (c) Copyright 2022-2023 University of Liege
     % Author: Thomas Lambert <t.lambert@uliege.be>
     % ULiege - Aeroelasticity and Experimental Aerodynamics
     % MIT License
-    % Repo: https://gitlab.uliege.be/thlamb/rotare
-    % Docs: https://gitlab.uliege.be/thlamb/rotare-doc
-    % Issues: https://gitlab.uliege.be/thlamb/rotare/-/issues
+    % Repo: https://gitlab.uliege.be/rotare/rotare
+    % Docs: https://gitlab.uliege.be/rotare/documentation
+    % Issues: https://gitlab.uliege.be/rotare/rotare/-/issues
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     persistent bool_ % Prevent future checks if all is good
@@ -87,9 +87,9 @@ function checkaftools(fctname)
                      'Please download '...
                      '<a href="https://gitlab.uliege.be/am-dept/matlab_airfoil_toolbox">'...
                      'the following library</a> and place it somewhere on Matlab''s path.\n\n' ...
-                     'Check the <a href="https://gitlab.uliege.be/thlamb/rotare-doc">complete '...
-                     'documentation (online)</a> for help on how to install properly all '...
-                     'dependencies.'], fctname);
+                     'Check the <a href="https://gitlab.uliege.be/rotare/documentation">' ...
+                     'complete documentation (online)</a> for help on how to install properly '...
+                     'all dependencies.'], fctname);
         Error.stack.file = '';
         Error.stack.name = 'verifyinstall';
         Error.stack.line = 1;

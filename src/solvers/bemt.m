@@ -21,19 +21,19 @@ function bemt(OpRot, Mod)
     %
     % See also: rotare, leishman, stahlhut, propsolv, turbsolv.
     %
-    % <a href="https://gitlab.uliege.be/thlamb/rotare-doc">Complete documentation (online)</a>
+    % <a href="https://gitlab.uliege.be/rotare/documentation">Complete documentation (online)</a>
 
     % ----------------------------------------------------------------------------------------------
     % TODO: Implement coaxial rotors
     % TODO: Implement oblique flows
     % ----------------------------------------------------------------------------------------------
-    % (c) Copyright 2022 University of Liege
+    % (c) Copyright 2022-2023 University of Liege
     % Author: Thomas Lambert <t.lambert@uliege.be>
     % ULiege - Aeroelasticity and Experimental Aerodynamics
     % MIT License
-    % Repo: https://gitlab.uliege.be/thlamb/rotare
-    % Docs: https://gitlab.uliege.be/thlamb/rotare-doc
-    % Issues: https://gitlab.uliege.be/thlamb/rotare/-/issues
+    % Repo: https://gitlab.uliege.be/rotare/rotare
+    % Docs: https://gitlab.uliege.be/rotare/documentation
+    % Issues: https://gitlab.uliege.be/rotare/rotare/-/issues
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % For each rotor, calculate the external velocity and solve the BEMT equations
