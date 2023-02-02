@@ -17,6 +17,23 @@ to [Semantic Versioning][sem_ver].
 
 ### Fixed
 
+## [0.1.0] - 2023-02-02
+
+### Added
+- Publish documentation (beta)
+- Roadmap
+- Logo
+- Clarification on beta status
+
+### Changed
+- Moved repo to its own group (thlamb -> rotare)
+- Update URLs in all doc
+- Make basic functions compliant with multi-rotor parameters
+
+### Fixed
+- Blade orientation on 3D view for propellers (#4)
+
+
 ## [0.0.1] - 2022-11-27
 
 ### Changed
@@ -31,5 +48,6 @@ _Initial commit_: single rotor in hover/axial flows
 [keep_chglog]: <https://keepachangelog.com/en/1.0.0/>
 
 [Unreleased]: https://gitlab.uliege.be/rotare/rotare/compare/0.0.1...main
-[0.0.1]: https://gitlab.uliege.be/rotare/rotare/-/releases/0.0.1
+[0.1.0]: https://gitlab.uliege.be/rotare/rotare/compare/0.0.1...0.1.0
+[0.0.1]: https://gitlab.uliege.be/rotare/rotare/compare/0.0.0...0.0.1
 [0.0.0]: https://gitlab.uliege.be/rotare/rotare/-/releases/0.0.0
