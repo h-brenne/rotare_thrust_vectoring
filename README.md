@@ -32,8 +32,8 @@ can be used in a wide range of applications outside of academia.
 
 ## Features
 
-A more exhaustive list of features can be found in the complete
-documentation that will be made available with version 1.0.0.
+A more exhaustive list of features can be found in the [complete
+documentation][rotare-doc] that will be made available with version 1.0.0.
 
 ### Types of rotors
 - [x] Helicopters main or tail rotors
@@ -94,8 +94,8 @@ generated _source code_ archives.
 
 ## Documentation
 
-Rotare comes with a detailed documentation (**LINK TO COME**). This
-documentation is made of two parts:
+Rotare comes with a [detailed documentation][rotare-doc]. This documentation is
+made of two parts:
 
 1. The user manual
 2. The technical documentation
@@ -145,6 +145,6 @@ software.
 The Rotare Software is provided under the [MIT license](LICENSE).
 
 [uliege-am]: https://www.am.uliege.be/
-[rotare-doc]: https://gitlab.uliege.be/rotare/documentation/
+[rotare-doc]: https://rotare.gitlabpages.uliege.be/documentation/rotare-doc.pdf
 [rotare-issues]: https://gitlab.uliege.be/rotare/rotare/issues
 [rotare-releases]: https://gitlab.uliege.be/rotare/rotare/-/releases
