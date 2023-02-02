@@ -1,21 +1,20 @@
-# WORK IN PROGRESS
-<div align="center">
-<span style="color:red">Rotare is still UNDER DEVELOPMENT. <br/>
-The first stable official release will be version 1.0.0.</span>
+![Rotare-title](media/rotare-title.jpg)
 
-A proper roadmap will be posted soon with the planned release date of the
-various features. Support will not be provided as long as version 1.0.0 is not
-released.
-</div>
+---
 
 <div align="center">
-{- The code is not yet fully validated. Use with caution. -}
+
+# DISCLAIMER
+
+{- Rotare is still IN BETA VERSION. -}
+
+**The first official stable release will be version 1.0.0**. Any version prior
+to 1.0.0 can be considered as alpha/beta. This means that options are likely to
+change (quite significantly), bugs or plain mistakes/errors may also be present.
+At the moment, the code has not been fully validated. Use at your own risks.
 </div>
 
 -----
-
-![Rotare-title](media/rotare-title.jpg)
-
 **Rotare** is a feature-rich and open-source implementation of the Blade Element
 Momentum Theory in MATLAB.
 
