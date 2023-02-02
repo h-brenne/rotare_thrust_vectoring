@@ -91,7 +91,6 @@ Mod.Ext.losses = 'all';    % Include losses using Prandtl formula ('none', 'hub'
 % Numerical parameters
 Mod.Num.convCrit = 1e-4;  % Convergence criterion value,
 Mod.Num.maxIter  = 500;   % Maximum number of iterations for convergence calculations
-Mod.Num.azimStep = 6;     % Azimuthal step (for oblique flows), [deg]
 Mod.Num.relax    = 0.10;  % Relaxation coefficient (facilitate convergence of iterative schemes)
 
 % ==================================================================================================
