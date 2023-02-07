@@ -49,10 +49,13 @@ archive_all:
   before_script:
     - pip install git-archive-all
   script:
-    - echo "Packaging source with submodules"
-    - git-archive-all --force-submodules "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.zip"
+    - echo "Downloading documentation pdf"
+    - wget https://rotare.gitlabpages.uliege.be/documentation/rotare-doc.pdf
+    - mv rotare-doc.pdf Documentation.pdf
+    - echo "Packaging source with submodules and documentation"
+    - git-archive-all --force-submodules --include=Documentation.pdf "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.zip"
     - 'curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.zip" "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.zip"'
-    - git-archive-all --force-submodules "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz"
+    - git-archive-all --force-submodules include=Documentation.pdf "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz"
     - 'curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz" "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.gz"'
 
 make_release:
