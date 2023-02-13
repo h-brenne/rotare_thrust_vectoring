@@ -17,6 +17,14 @@ to [Semantic Versioning][sem_ver].
 
 ### Fixed
 
+## [0.1.1] - 2023-02-13
+
+### Added
+- Documentation now added to the release archive
+
+### Fixed
+- Proper extrapolation method
+
 ## [0.1.0] - 2023-02-02
 
 ### Added
@@ -47,7 +55,8 @@ _Initial commit_: single rotor in hover/axial flows
 [sem_ver]:<https://semver.org/spec/v2.0.0.html>
 [keep_chglog]: <https://keepachangelog.com/en/1.0.0/>
 
-[Unreleased]: https://gitlab.uliege.be/rotare/rotare/compare/0.0.1...main
+[Unreleased]: https://gitlab.uliege.be/rotare/rotare/compare/0.1.1...main
+[0.1.1]: https://gitlab.uliege.be/rotare/rotare/compare/0.1.0...0.1.1
 [0.1.0]: https://gitlab.uliege.be/rotare/rotare/compare/0.0.1...0.1.0
 [0.0.1]: https://gitlab.uliege.be/rotare/rotare/compare/0.0.0...0.0.1
 [0.0.0]: https://gitlab.uliege.be/rotare/rotare/-/releases/0.0.0

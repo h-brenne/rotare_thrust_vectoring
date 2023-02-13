@@ -8,7 +8,5 @@ automatically generated and do not contain all dependencies.
 **This is a BETA version of Rotare**, which is still under heavy development.
 
 This release introduces:
-- Repository reorganization
-- Documentation upgrades
-- Add visual identity (logo)
-- **FIX**: 3D view of propeller (#4)
+- **FIX**: Extrapolation method for the polars
+- Documentation now packaged with each release
