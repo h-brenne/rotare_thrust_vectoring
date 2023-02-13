@@ -94,7 +94,7 @@ Airfoil.coordFile = 'airfoil_data/naca0012.dat';
 
 % If Airfoil.polarType == 'file'
 Airfoil.polarFile = 'airfoil_data/NACA_0012-Re_2e5-1e7.mat';
-Airfoil.extrap = true; % Extrapolates polar over whole range of angles of attack ([-180,180] deg)
+Airfoil.extrapMethod = 'viterna'; % Polar extrapol. ('none', 'spline', 'Viterna')
 
 % ==================================================================================================
 % ================================= Blade and rotor geometry =======================================

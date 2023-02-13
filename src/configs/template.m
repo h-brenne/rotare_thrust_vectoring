@@ -125,7 +125,7 @@ Airfoil.polarType = 'file'; % Type of polar to use ('file', 'polynomial')
 
 % If Airfoil.polarType == 'file'
 Airfoil.polarFile = 'airfoil_data/NACA_0015-Re_2e5-1e7.mat';
-Airfoil.extrap = true; % Extrapolates polar over whole range of angles of attack ([-180,180] deg)
+Airfoil.extrapMethod = 'viterna'; % Polar extrapol. ('none', 'spline', 'viterna')
 
 % If Airfoil.polarType == 'polynomial'
 Airfoil.clPoly = [0.1101, 0.4409]; % Polynomial coefficients for Cl, [1/deg]
@@ -137,7 +137,7 @@ Airfoil(2).polarType = 'file'; % Type of polar to use ('file', 'polynomial')
 
 % If Airfoil.polarType == 'file'
 Airfoil(2).polarFile = 'airfoil_data/NACA_0012-Re_2e5-1e7.mat';
-Airfoil(2).extrap = true; % Extrapolates polar over whole range of angles of attack ([-180,180] deg)
+Airfoil(2).extrapMethod = 'viterna'; % Polar extrapol. ('none', 'spline', 'viterna')
 
 % If Airfoil.polarType == 'polynomial'
 Airfoil(2).clPoly = [0.1101, 0.4409]; % Polynomial coefficients for Cl, [1/deg]

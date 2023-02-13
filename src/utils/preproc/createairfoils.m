@@ -51,9 +51,8 @@ function Af = createairfoils(UserAirfoil)
                 Af(i) = Af(i).Polar.polypolar(UserAirfoil(i).clPoly, UserAirfoil(i).cdPoly);
         end
 
-        % Extend the polar and get the important properties
-        Af(i).Polar.extendpolar();
         Af(i).Polar.analyze();
+        Af(i).Polar.extrapMethod = UserAirfoil(i).extrapMethod;
 
     end
 

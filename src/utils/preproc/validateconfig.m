@@ -81,6 +81,7 @@ function [Sim, Mod, Flow, Op, Airfoil, Blade] = validateconfig(configFile)
     DEF.HUB_TYPE = {'none', 'cylinder', 'conic', 'blunted_conic', 'biconic', 'tangent_ogive', ...
                     'blunted_tangent_ogive', 'secant_ogive_regular', 'secant_ogive_bulge', ...
                     'elliptical', 'parabolic', 'power_series', 'lv_haack', 'vonkarman'};
+    DEF.EXTRAP_METHOD = {'none', 'spline', 'viterna'};
     DEF.APPLI = {'helicopter', 'propeller', 'windturbine'};
 
     % ===========================================
@@ -273,7 +274,8 @@ function Airfoil = checkairfoil(Airfoil, configFile, DEF)
                        '\n See Airfoil.polarFile in %s.'], Airfoil(i).coordFile, configFile);
             end
 
-            vallogical(Airfoil(i).extrap, configFile, 'Airfoil.extrap');
+            Airfoil(i).extrapMethod = validatestring(Airfoil(i).extrapMethod, DEF.EXTRAP_METHOD, ...
+                                                     configFile, 'Airfoil.extrapMethod');
 
         else
             try
