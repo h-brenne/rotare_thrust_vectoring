@@ -7,6 +7,6 @@ automatically generated and do not contain all dependencies.
 ## About this release
 **This is a BETA version of Rotare**, which is still under heavy development.
 
-This release introduces:
-- **FIX**: Extrapolation method for the polars
-- Documentation now packaged with each release
+This release features:
+- **FIX**: Issue with zero lift angle calculation when polars provided for a
+  single Reynolds

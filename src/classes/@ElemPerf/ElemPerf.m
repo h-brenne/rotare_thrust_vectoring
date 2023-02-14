@@ -129,8 +129,12 @@ classdef ElemPerf < handle
                 for i = 1:length(Rot.Af)
                     idx = (Rot.Bl.iAf == i);
                     Pol = Rot.Af(i).Polar;
-                    self.alpha0(idx) = interp1(Pol.reynolds, Pol.Zero.aoa, self.reynolds(idx), ...
-                                               'linear', 'extrap');
+                    if numel(Pol.reynolds) == 1
+                        self.alpha0(idx) = Pol.Zero.aoa;
+                    else
+                        self.alpha0(idx) = interp1(Pol.reynolds, Pol.Zero.aoa, ...
+                                                   self.reynolds(idx), 'linear', 'extrap');
+                    end
                 end
 
                 % Calculate truePitch

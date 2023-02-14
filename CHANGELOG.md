@@ -16,6 +16,8 @@ to [Semantic Versioning][sem_ver].
 ### Removed
 
 ### Fixed
+- Issue with zero lift angle calculation when polars provided for a single
+  Reynolds
 
 ## [0.1.1] - 2023-02-13
 
