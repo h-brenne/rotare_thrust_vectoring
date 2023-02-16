@@ -10,3 +10,5 @@ automatically generated and do not contain all dependencies.
 This release features:
 - **FIX**: Issue with zero lift angle calculation when polars provided for a
   single Reynolds
+- **FIX**: Issue with lift curve slope calculation when polars provided for a
+  single Reynolds

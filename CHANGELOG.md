@@ -18,6 +18,8 @@ to [Semantic Versioning][sem_ver].
 ### Fixed
 - Issue with zero lift angle calculation when polars provided for a single
   Reynolds
+- Issue with lift curve slope calculation when polars provided for a single
+  Reynolds
 
 ## [0.1.1] - 2023-02-13
 
