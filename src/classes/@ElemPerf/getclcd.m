@@ -59,7 +59,7 @@ function [cl, cd] = getclcd(self, aoaVect, reyVect, i)
 
         for i = 1:length(Af)
             idx = (iAf == i);
-            if idx ~= 0
+            if any(idx)
                 [cl(idx), cd(idx)] = Af(i).Polar.getcoeffs(aoaVect(idx), reyVect(idx));
             end
         end
