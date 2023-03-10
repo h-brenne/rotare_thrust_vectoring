@@ -1,3 +1,6 @@
+# Rotare project by Thomas Lambert is available at [gitlab](https://gitlab.uliege.be/rotare/rotare/)
+# This is an extension of this project.
+
 ![Rotare-title](media/rotare-title.jpg)
 
 ---
