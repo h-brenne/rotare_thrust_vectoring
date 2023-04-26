@@ -33,7 +33,7 @@ function calcperf(self)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Defaults and constants
-    INTEGRATION_TYPE = 'rect'; % Integrate using rectangular ('rect') or trapezoidal ('trap') method
+    INTEGRATION_TYPE = 'trap'; % Integrate using rectangular ('rect') or trapezoidal ('trap') method
 
     % Thrust, torque and power
     if strcmp(INTEGRATION_TYPE, 'rect')
