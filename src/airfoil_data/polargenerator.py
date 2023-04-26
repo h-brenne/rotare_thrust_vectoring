@@ -33,7 +33,7 @@ def main():
 
     airfoil = parse_inputs()
     reynolds = [re * 1000000 for re in [0.2, 0.5, 1, 1.5, 2, 5, 10]]
-    aoa = list(np.arange(-20, 30, 0.5))
+    aoa = list(np.arange(-18, 25, 0.5))
 
     i = 1
     for re in reynolds:
