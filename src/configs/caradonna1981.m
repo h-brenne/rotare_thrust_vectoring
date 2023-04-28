@@ -52,6 +52,7 @@ Sim.Misc.appli  = 'heli'; % Type of application ('helicopter', 'propeller', 'win
 
 % Solvers
 Mod.solvers = {'all'};   % BEMT Solver ('leishman', 'indfact', 'indvel', 'stahlhut', 'all')
+% Mod.solvers = {'leishman'};   % BEMT Solver ('leishman', 'indfact', 'indvel', 'stahlhut', 'all')
 
 % Extensions/corrections
 Mod.Ext.losses = 'all';  % Include losses using Prandtl formula ('none', 'hub', 'tip', 'both')
