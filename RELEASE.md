@@ -5,10 +5,10 @@ rotare-<version>` linked above, not the _source code_ ones. The latter are
 automatically generated and do not contain all dependencies.
 
 ## About this release
+
 **This is a BETA version of Rotare**, which is still under heavy development.
 
 This release features:
-- **FIX**: Issue with zero lift angle calculation when polars provided for a
-  single Reynolds
-- **FIX**: Issue with lift curve slope calculation when polars provided for a
-  single Reynolds
+
+- Minor bug fixes for the calculation of polars
+- Minor tweaks of default values

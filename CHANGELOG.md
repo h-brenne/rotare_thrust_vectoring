@@ -11,11 +11,17 @@ to [Semantic Versioning][sem_ver].
 
 ### Changed
 
+- Tweaked range in polargeneration script with XFoil to improve chances of
+  convergence
+- Set interpolation method to `trapz` by default instead of `sum`
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- Minor bug in getclcd
 - Issue with zero lift angle calculation when polars provided for a single
   Reynolds
 - Issue with lift curve slope calculation when polars provided for a single
@@ -24,27 +30,31 @@ to [Semantic Versioning][sem_ver].
 ## [0.1.1] - 2023-02-13
 
 ### Added
+
 - Documentation now added to the release archive
 
 ### Fixed
+
 - Proper extrapolation method
 
 ## [0.1.0] - 2023-02-02
 
 ### Added
+
 - Publish documentation (beta)
 - Roadmap
 - Logo
 - Clarification on beta status
 
 ### Changed
+
 - Moved repo to its own group (thlamb -> rotare)
 - Update URLs in all doc
 - Make basic functions compliant with multi-rotor parameters
 
 ### Fixed
-- Blade orientation on 3D view for propellers (#4)
 
+- Blade orientation on 3D view for propellers (#4)
 
 ## [0.0.1] - 2022-11-27
 
