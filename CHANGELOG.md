@@ -11,13 +11,19 @@ to [Semantic Versioning][sem_ver].
 
 ### Changed
 
-- Tweaked range in polargeneration script with XFoil to improve chances of
-  convergence
-- Set interpolation method to `trapz` by default instead of `sum`
-
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [0.1.2] - 2023-04-28
+
+### Changed
+
+- Tweaked range in polargeneration script with XFoil to improve chances of
+  convergence
+- Set interpolation method to `trapz` by default instead of `sum`
 
 ### Fixed
 
@@ -69,7 +75,8 @@ _Initial commit_: single rotor in hover/axial flows
 [sem_ver]:<https://semver.org/spec/v2.0.0.html>
 [keep_chglog]: <https://keepachangelog.com/en/1.0.0/>
 
-[Unreleased]: https://gitlab.uliege.be/rotare/rotare/compare/0.1.1...main
+[Unreleased]: https://gitlab.uliege.be/rotare/rotare/compare/0.1.2...main
+[0.1.2]: https://gitlab.uliege.be/rotare/rotare/compare/0.1.1...0.1.2
 [0.1.1]: https://gitlab.uliege.be/rotare/rotare/compare/0.1.0...0.1.1
 [0.1.0]: https://gitlab.uliege.be/rotare/rotare/compare/0.0.1...0.1.0
 [0.0.1]: https://gitlab.uliege.be/rotare/rotare/compare/0.0.0...0.0.1
