@@ -38,7 +38,7 @@ Sim.Out.verbosity = 'min'; % Verbosity level of the console output ('min', 'all'
 Sim.Warn.sonicTip = true;  % Enable warnings if tip is trans/supersonic
 
 % Miscellaneous
-Sim.Misc.nonDim = 'US';   % Non-dimensionalization factor ('US', 'EU')
+Sim.Misc.nonDim = 'EU';   % Non-dimensionalization factor ('US', 'EU')
 Sim.Misc.appli  = 'heli'; % Type of application ('helicopter', 'propeller', 'windturbine')
 
 % ==================================================================================================
@@ -75,7 +75,7 @@ Flow.fluid = 'air';  % Fluid ('air', 'seawater', 'freshwater')
 % simulations can be very large if you want lots of operating points.
 
 Op.speed      = 0;              % (Axial) Velocity, [m/s]
-Op.collective = 0:12;           % Collective pitch, [deg]
+Op.collective = 1:12;           % Collective pitch, [deg]
 Op.rpm        = 960;            % Rotor angular velocity, [RPM]
 Op.altitude   = 0;              % Flight altitude (only used if Flow.fluid = 'air'), [m]
 
@@ -103,8 +103,7 @@ Blade.nBlades    = 2;  % Number of blades on the rotor, [-]
 Blade.pitchRef = 'chordline';  % Reference for the pitch angle value ('zerolift', 'chordline')
 
 % Base dimensions (at least root and tip)
-Blade.radius   = [0.0381, 0.7620];  % Spanwise position of the blade base stations, [m]
-Blade.radius   = [0.00001, 0.7620];  % Spanwise position of the blade base stations, [m]
+Blade.radius   = [0.127, 0.7620];  % Spanwise position of the blade base stations, [m]
 Blade.chord    = [0.0508, 0.0508]; % Chord at the blade base stations; [m]
 Blade.twist    = [0, 0];           % Twist at the blade base stations, [deg]
 Blade.iAirfoil = [1, 1];           % Index of the airfoil to use for the base stations, [-]
