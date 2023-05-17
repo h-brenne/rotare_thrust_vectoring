@@ -10,21 +10,30 @@ function plotveltriangles(self, nTriangles, varargin)
     %   ElPerf.plotveltriangles(nTriangles) Plot the velocity triangles for `nTriangles` linearily
     %   spaced sections along the blade.
     %
+    %   ElPerf.plotveltriangles(..., 'figType', 'all') Select the type of figures to output. Can
+    %   either be '3D' for the 3D plot, 'sections' for individual plots of each sections or 'all'
+    %   for both options.
+    %
+    %   ElPerf.plotveltriangles(..., 'newFig', true) Plot the 3D plot in a new figure. If false, it
+    %   will be plotted in the current figure.
+    %
     % Inputs:
     %   nTriangles: Number of section to plot the velocity triangles for
     %
     % Outputs:
-    %   Plots [FIXME]
+    %   - 3D plot of the blade and the velocity triangles at some stations
+    %   - 2D plots of the velocity triangles at each station
     %
+    % Examples:
+    %   ElPerf.plotveltriangles()
+    %   ElPerf.plotveltriangles(4)
+    %   ElPerf.plotveltriangles(4, 'figType', 'sections')
+    %   ElPerf.plotveltriangles(4, 'newFig', true)
     %
     % See also: ElemPerf.
     %
     % <a href="https:/gitlab.uliege.be/rotare/documentation">Complete documentation (online)</a>
 
-    % ----------------------------------------------------------------------------------------------
-    % LIST OF TODOS
-    %   - Should be able to plot individual sections in 2D as well (one fig per section)
-    %
     % ----------------------------------------------------------------------------------------------
     % (c) Copyright 2022-2023 University of Liege
     % Author: Thomas Lambert <t.lambert@uliege.be>
@@ -38,7 +47,7 @@ function plotveltriangles(self, nTriangles, varargin)
     % Defaults and constants
     TRI_POS_Z = 1; % Number of chords of space to display the triangle position
     VECT_SCALE_FACTOR = 2; % Number of chords of space to display the triangle position
-    DEF.FIG_TYPE = '3D'; % Only 3D plot by default
+    DEF.FIG_TYPE = 'all'; % Only 3D plot by default
     DEF.NEW_FIG = false; % New figure is false by default
     DEF.ALLOWED_FIG_TYPES = {'all', '3D', 'sections'};
 
@@ -79,7 +88,7 @@ function plotveltriangles(self, nTriangles, varargin)
     scale = VECT_SCALE_FACTOR * self.Rot.Bl.chord(1) / (self.Op.omega * self.Rot.radius);
     zSpace = TRI_POS_Z * self.Rot.Bl.chord(1) / scale;
 
-    % Actual plotting of the blade
+    % Actual plotting of the sections and triangles
     if strcmpi(figType, 'all') || strcmpi(figType, '3D')
         if newFig
             figure('Name', 'Velocity triangles along the blade');
@@ -92,10 +101,26 @@ function plotveltriangles(self, nTriangles, varargin)
             plottri(0, self.Rot.Bl.y(i), zSpace, vAx_up(i), vTg_up(i), scale, 3); % Upstream
             plottri(0, self.Rot.Bl.y(i), 0, vAx_rot(i), vTg_rot(i), scale, 3); % At the disk
             plottri(0, self.Rot.Bl.y(i), -zSpace, vAx_down(i), vTg_down(i), scale, 3); % Downstream
-
         end
         axis equal;
+    end
 
+    if strcmpi(figType, 'all') || strcmpi(figType, 'sections')
+
+        for i = iSec
+            figName = sprintf('Velocity triangles at r/R = %.2f', self.Rot.Bl.r(i));
+            figure('Name', figName);
+            title(figName);
+
+            hold on;
+            plottri(0, self.Rot.Bl.y(i), zSpace, vAx_up(i), vTg_up(i), scale, 2); % Upstream
+            plottri(0, self.Rot.Bl.y(i), 0, vAx_rot(i), vTg_rot(i), scale, 2); % At the disk
+            plottri(0, self.Rot.Bl.y(i), -zSpace, vAx_down(i), vTg_down(i), scale, 2); % Downstream
+            grid on;
+            xlim([-3 * self.Rot.Bl.chord(1), self.Rot.Bl.chord(1)]);
+            ylim([-2 * self.Rot.Bl.chord(1), 2 * self.Rot.Bl.chord(1)]);
+        end
+        axis equal;
     end
 
 end
