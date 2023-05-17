@@ -22,6 +22,10 @@ function plotveltriangles(self, nTriangles, varargin)
     % <a href="https:/gitlab.uliege.be/rotare/documentation">Complete documentation (online)</a>
 
     % ----------------------------------------------------------------------------------------------
+    % LIST OF TODOS
+    %   - Should be able to plot individual sections in 2D as well (one fig per section)
+    %
+    % ----------------------------------------------------------------------------------------------
     % (c) Copyright 2022-2023 University of Liege
     % Author: Thomas Lambert <t.lambert@uliege.be>
     % ULiege - Aeroelasticity and Experimental Aerodynamics
@@ -31,57 +35,77 @@ function plotveltriangles(self, nTriangles, varargin)
     % Issues: https://gitlab.uliege.be/rotare/rotare/-/issues
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    % Defaults and constants
+    TRI_POS_Z = 1; % Number of chords of space to display the triangle position
+    VECT_SCALE_FACTOR = 2; % Number of chords of space to display the triangle position
+    DEF.FIG_TYPE = '3D'; % Only 3D plot by default
+    DEF.NEW_FIG = false; % New figure is false by default
+    DEF.ALLOWED_FIG_TYPES = {'all', '3D', 'sections'};
+
     % Input check and validation
     if nargin < 2
         nTriangles = 5;
     end
 
-    newFig = false;
+    valLogi = @(x) validateattributes(x, {'logical'}, {'scalar'});
+    p = inputParser;
+    p.FunctionName = 'plot';
+    addOptional(p, 'figType', DEF.FIG_TYPE, @(x) any(validatestring(x, DEF.ALLOWED_FIG_TYPES)));
+    addOptional(p, 'newFig', DEF.NEW_FIG, valLogi);
+    parse(p, varargin{:});
+    figType = p.Results.figType;
+    newFig = p.Results.newFig;
 
-    if newFig
-        figure('Name', 'Velocity triangles');
+    % Velocity triangles
+    % FIXME: Needs adaptation for coaxial
+    vAx_up = ones(size(self.tgSpeed)) * self.Op.speed;
+    vTg_up = self.tgSpeed;
+
+    vAx_rot = self.Op.speed + self.indVelAx;
+    vTg_rot = self.tgSpeed - self.indVelTg;
+
+    vAx_down = self.Op.speed + 2 * self.indVelAx;
+    vTg_down = self.tgSpeed - 2 * self.indVelTg;
+
+    % Determine sections to be plotted
+    if nTriangles == 0 || nTriangles > length(self.Rot.Bl.r)
+        iSec = 1:length(self.Rot.Bl.r);
+    else
+        iSec = floor(linspace(1, length(self.Rot.Bl.r), nTriangles));
     end
 
-    totVelAx = self.indVelAx;
-    totVelTg = self.indVelTg + 100;
-    figure;
+    % Vectors will need to be scaled down otherwise it is 100x too large.
+    % Good scaling: tip speed should be similar to n Chords
+    scale = VECT_SCALE_FACTOR * self.Rot.Bl.chord(1) / (self.Op.omega * self.Rot.radius);
+    zSpace = TRI_POS_Z * self.Rot.Bl.chord(1) / scale;
 
-    %     plot3(self.Rot.Af.coord(:,1), zeros(size(self.Rot.Af.coord,1)), self.Rot.Af.coord(:,2))
-    plot(self.Rot.Af.coord(:, 1), self.Rot.Af.coord(:, 2));
-    hold on;
-    plottri(0, 0, 0, totVelAx(end / 2), totVelTg(end / 2), 0.005);
-    axis equal;
-    grid on;
+    % Actual plotting of the blade
+    if strcmpi(figType, 'all') || strcmpi(figType, '3D')
+        if newFig
+            figure('Name', 'Velocity triangles along the blade');
+        end
 
-    if nTriangles == 0 || nTriangles > length(self.Rot.Bl.r)
+        self.Rot.plotblade(nTriangles);
+        hold on;
 
-        % plot all vel tri
-    else
-        % pos = linspace(self.Rot.Bl.r(1), self.Rot.Bl.r(end), nTriangles)
-        % pos = roundtoneares(pos, self.Rot.Bl.r)
-        % plot triangles at pos
+        for i = iSec
+            plottri(0, self.Rot.Bl.y(i), zSpace, vAx_up(i), vTg_up(i), scale, 3); % Upstream
+            plottri(0, self.Rot.Bl.y(i), 0, vAx_rot(i), vTg_rot(i), scale, 3); % At the disk
+            plottri(0, self.Rot.Bl.y(i), -zSpace, vAx_down(i), vTg_down(i), scale, 3); % Downstream
+
+        end
+        axis equal;
+
     end
 
 end
 
-% Round to nearest
-%
-%     % This solutions currently does it with loops just to get a picture of the problem.
-%     A = [2000 1999 1998 1996 1993 1990];
-%     B = [2000 1995 1990 1985 1980];
-%     for idx1=1:length(A);
-%       for idx2=1:length(B);
-%           C(idx2,idx1)=A(idx1)-B(idx2);
-%       end;
-%     end
-%     % Now find the index of the min values
-%     [v,i]=min(abs(C));
-%     % 'i' now contants the list of locations in B that corespond to the nearest
-%     % A value
-%     B(i)
-
 function plottri(x, y, z, vAx, vTg, size, dim)
     % PLOTTRI Plot a triangle with the resulting pointing in (x,y,z)
+
+    COLOR_AX = [168, 88, 158] / 255; % Purple
+    COLOR_TG = [240, 127, 60] / 255;   % Orange
+    COLOR_RES = [0, 112, 127] / 255;   % Blue-green
 
     if nargin < 6
         size = 0;
@@ -95,22 +119,22 @@ function plottri(x, y, z, vAx, vTg, size, dim)
         coordSize = size;
     end
 
-    % [FIXME] Dynamic function name
     if dim == 2
-        disp('coucou');
-        % Plot the vectors so resulting speed ends up in (x,y,z)
+        % Plot the vectors in 2D
         quiver(x * coordSize, (z + vAx) * coordSize, 0, -vAx, size);
         quiver((x - vTg) * coordSize, (z + vAx) * coordSize, vTg, 0, size);
         quiver((x - vTg) * coordSize, (z + vAx) * coordSize, vTg, -vAx, size);
     else
         % Plot the vectors so resulting speed ends up in (x,y,z)
-        quiver3(x * coordSize, y, (z + vAx) * coordSize, 0, 0, -vAx, size);
-        quiver3((x - vTg) * coordSize, y, (z + vAx) * coordSize, vTg, 0, 0, size);
-        quiver3((x - vTg) * coordSize, y, (z + vAx) * coordSize, vTg, 0, -vAx, size);
+        quiver3(x * coordSize, y, (z + vAx) * coordSize, ...
+                0, 0, -vAx, ...
+                size, 'color', COLOR_AX, 'linewidth', 1.5);
+        quiver3((x - vTg) * coordSize, y, (z + vAx) * coordSize, ...
+                vTg, 0, 0, ...
+                size, 'color', COLOR_TG, 'linewidth', 1.5);
+        quiver3((x - vTg) * coordSize, y, (z + vAx) * coordSize, ...
+                vTg, 0, -vAx, ...
+                size, 'color', COLOR_RES, 'linewidth', 2);
     end
 
-    % Plot the vectors so resulting speed ends up in (x,y,z)
-    quiver3(x * coordSize, y, (z + vAx) * coordSize, 0, 0, -vAx, size);
-    quiver3((x - vTg) * coordSize, y, (z + vAx) * coordSize, vTg, 0, 0, size);
-    quiver3((x - vTg) * coordSize, y, (z + vAx) * coordSize, vTg, 0, -vAx, size);
 end
