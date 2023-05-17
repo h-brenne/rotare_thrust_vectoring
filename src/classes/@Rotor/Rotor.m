@@ -132,7 +132,7 @@ classdef Rotor < handle
 
         % ---------------------------------------------
         % Other methods
-        plot(self, type, hubType, colorData) % 3D plot of the rotor
+        plot(self, varargin) % 3D plot of the rotor
 
     end
 end

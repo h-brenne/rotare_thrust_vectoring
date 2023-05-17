@@ -55,8 +55,6 @@ function plot(self, varargin)
     % Issues: https://gitlab.uliege.be/rotare/rotare/-/issues
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    narginchk(1, 4);
-
     import af_tools.formatairfoilcoord
 
     % Defaults and Constants
@@ -77,15 +75,18 @@ function plot(self, varargin)
     % Input validation
     valData = @(x) validateattributes(x, {'numeric'}, ...
                                       {'row', 'nonempty', 'numel', length(self.Bl.chord)});
+    valLogi = @(x) validateattributes(x, {'logical'}, {'scalar'});
     p = inputParser;
     p.FunctionName = 'plot';
     addOptional(p, 'type', 'all', @(x) any(validatestring(x, DEF.ALLOWED_TYPES)));
     addOptional(p, 'hubType', 'none', @(x) any(validatestring(x, DEF.ALLOWED_HUBS)));
     addOptional(p, 'data', zeros(size(self.Bl.chord)), valData);
+    addOptional(p, 'newFig', true, valLogi);
     parse(p, varargin{:});
     type = p.Results.type;
     hubType = p.Results.hubType;
     data = p.Results.data;
+    newFig = p.Results.newFig;
 
     % -------------------------------------------
     % Normalize airfoil coordinates so they all have the same X components and number of points
@@ -102,7 +103,9 @@ function plot(self, varargin)
     if any(strcmp(type, {'all', 'blade'}))
 
         figname = 'Single Blade';
-        figure('PaperUnits', 'inches', 'PaperPosition', [0 0 1280 1024] / 250, 'Name', figname);
+        if newFig || strcmp(type, 'all')
+            figure('PaperUnits', 'inches', 'PaperPosition', [0 0 1280 1024] / 250, 'Name', figname);
+        end
         hAx = axes('NextPlot', 'add');
         plotblade(Blade, dataMat, hAx, DEF);
         setgca();
@@ -114,7 +117,9 @@ function plot(self, varargin)
         Blades = makerotorblades(self, Blade);
 
         figname = 'Full Rotor';
-        figure('PaperUnits', 'inches', 'PaperPosition', [0 0 1280 1024] / 250, 'Name', figname);
+        if newFig || strcmp(type, 'all')
+            figure('PaperUnits', 'inches', 'PaperPosition', [0 0 1280 1024] / 250, 'Name', figname);
+        end
         hAx = axes('NextPlot', 'add');
         for iBl = 1:self.nBlades
             plotblade(Blades(iBl), dataMat, hAx, DEF);
