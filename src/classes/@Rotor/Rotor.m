@@ -22,8 +22,9 @@ classdef Rotor < handle
     %   r0       - Non-dimensionalized root cutout, [-]
     %
     % Rotor methods:
-    %   Rotor    - Constructor
-    %   plot     - Plots the rotor in 3D
+    %   Rotor     - Constructor
+    %   plot      - Plots the rotor in 3D
+    %   plotblade - Plots a single blade in 3D
     %
     % Rotor constructor:
     %   Rot = Rotor() creates an empty object.
@@ -133,6 +134,7 @@ classdef Rotor < handle
         % ---------------------------------------------
         % Other methods
         plot(self, varargin) % 3D plot of the rotor
+        plotblade(self, nSec, varargin) % Plot the blade
 
     end
 end
