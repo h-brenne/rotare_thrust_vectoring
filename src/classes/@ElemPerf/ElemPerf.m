@@ -248,7 +248,7 @@ classdef ElemPerf < handle
         plot(self, type) % Plot the evolution of the various properties along the span
         calcforces(self) % Calculate forces, torque and power
         [cl, cd] = getclcd(self, aoaVect, reyVect, i) % Get values of cl and cd
-        plotveltriangles(self, nTriangles)
+        plotveltriangles(self, nTriangles, varargin)
     end
 
 end
