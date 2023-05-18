@@ -134,7 +134,7 @@ classdef Rotor < handle
         % ---------------------------------------------
         % Other methods
         plot(self, varargin) % 3D plot of the rotor
-        plotblade(self, nSec, varargin) % Plot the blade
+        plotblade(self, pitch, nSec, varargin) % Plot the blade
 
     end
 end

@@ -1,4 +1,4 @@
-function plotblade(self, nSec, varargin)
+function plotblade(self, pitch, nSec, varargin)
     % PLOTBLADE 3D plot of a single blade.
     %   This method generates a 3D plot of the blade.
     %   If provided, it can also colorize the blade elements using some input data (e.g. cT, cP,
@@ -8,8 +8,11 @@ function plotblade(self, nSec, varargin)
     % Syntax:
     %   Rot.plotblade() draws a 3D plot of a single blade with default colors.
     %
-    %   Rot.plotblade(nSec) specifies the number of sections to explicitely draw. If not specified,
-    %   all sections will be drawned on top of the blade outline.
+    %   Rot.plotblade(pitch) pitches the blade according to the `pitch` angle in radians. If not
+    %   specified, no pitch will be applied.
+    %
+    %   Rot.plotblade(pitch, nSec) specifies the number of sections to explicitely draw. If not
+    %   specified, all sections will be drawned on top of the blade outline.
     %
     %   Rot.plotblade(..., 'data', vector) draws the 3D of a single blade and colorize the sections
     %   using the values found in 'data'.
@@ -34,7 +37,8 @@ function plotblade(self, nSec, varargin)
     %
     % Examples:
     %   Rot.plotblade()
-    %   Rot.plotblade(5)
+    %   Rot.plotblade(deg2rad(10))
+    %   Rot.plotblade(deg2rad(10), 5)
     %   Rot.plotblade('data', cT)
     %   Rot.plotblade('newFig', true)
     %   Rot.plotblade('surfProp', {'FaceAlpha', 1, 'FaceColor','blue'})
@@ -63,6 +67,9 @@ function plotblade(self, nSec, varargin)
     DEF.CHORD_SPACING_RULE = 'halfcosine';
 
     if nargin < 2
+        pitch = 0;
+    end
+    if nargin < 3
         nSec = 0;
     end
 
@@ -100,7 +107,7 @@ function plotblade(self, nSec, varargin)
     dataMat = repmat(data, length(coords(:, 1)), 1);
 
     % Scale elements and twist them properly to create the correct blade
-    Blade = gettrueposition(self.Bl, coords, chordMat, DEF);
+    Blade = gettrueposition(self.Bl, coords, chordMat, pitch, DEF);
 
     % Plot blade and rotor
     if newFig
@@ -143,7 +150,7 @@ function coords = normalizeafcoord(self, DEF)
 
 end
 
-function Blade = gettrueposition(Elem, coords, chordMat, DEF)
+function Blade = gettrueposition(Elem, coords, chordMat, pitch, DEF)
     % GETTRUEPOSITION  Returns the true position of the blade elements after scaling and twisting
 
     % Scale the blade to actual chord and span
@@ -156,7 +163,7 @@ function Blade = gettrueposition(Elem, coords, chordMat, DEF)
 
     % Pitch the airfoil according to the correct local twist angle
     for i = 1:length(Elem.chord)
-        rotY = roty(rad2deg(Elem.twist(i)));
+        rotY = roty(rad2deg(Elem.twist(i) + pitch));
         dummy = rotY * [geomX(:, i), geomY(:, i), geomZ(:, i)]';
         Blade.x(:, i) = dummy(1, :);
         Blade.y(:, i) = dummy(2, :);

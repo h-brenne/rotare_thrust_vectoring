@@ -47,7 +47,7 @@ function plotveltriangles(self, nTriangles, varargin)
     % Defaults and constants
     TRI_POS_Z = 1; % Number of chords of space to display the triangle position
     VECT_SCALE_FACTOR = 2; % Number of chords of space to display the triangle position
-    DEF.FIG_TYPE = 'all'; % Only 3D plot by default
+    DEF.FIG_TYPE = '3D'; % Only 3D plot by default
     DEF.NEW_FIG = false; % New figure is false by default
     DEF.ALLOWED_FIG_TYPES = {'all', '3D', 'sections'};
 
@@ -94,7 +94,7 @@ function plotveltriangles(self, nTriangles, varargin)
             figure('Name', 'Velocity triangles along the blade');
         end
 
-        self.Rot.plotblade(nTriangles);
+        self.Rot.plotblade(self.Op.coll, nTriangles);
         hold on;
 
         for i = iSec
