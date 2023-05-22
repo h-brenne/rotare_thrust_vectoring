@@ -14,7 +14,7 @@ dQ = [zeros(1, round(num_cutout_elems)) dQ];
 
 % 3D plot of Thrust
 %cylinder(dT)
-n = 20;
+n = 50;
 theta = linspace(0,pi,n).';
 
 x0 = linspace(1,length(dT), length(dT));
@@ -40,7 +40,7 @@ hold on
 set(h, 'EdgeAlpha',0.0);
 set(h, 'FaceAlpha',0.2);
 axHand = h.Parent;
-axHand.ZLim = [-0.2, 0.2];
+axHand.ZLim = [-0.5, 0.5];
 axHand.XLim = [-length(dT), length(dT)];
 axHand.YLim = [-length(dT), length(dT)];
 % Draw 2d plot

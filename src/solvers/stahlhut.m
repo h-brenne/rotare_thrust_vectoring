@@ -65,19 +65,19 @@ function stahlhut(OpRot, Mod)
         try % If issue with the solver, plot the function and add information to error msg
 
             % When hover/idle, first evaluate g(0) to determine the sign of g(phi)
-            gzero = [];
 
-            if OpRot.Op.speed == 0
+            if OpRot.ElPerf.axSpeed(i) == 0.0
                 gzero = Gfunc(0);
-            end
-
-            % Define interval where the root is expected to be found
-            if OpRot.Op.speed > 0 || gzero <= 0
+                if gzero <= 0
+                    unk0(1) = IND_ANGLE_ZERO;
+                    unk0(2) = IND_ANGLE_UP;
+                elseif gzero > 0
+                    unk0(1) = IND_ANGLE_LOW;
+                    unk0(2) = IND_ANGLE_ZERO;
+                end
+            else
                 unk0(1) = IND_ANGLE_ZERO;
                 unk0(2) = IND_ANGLE_UP;
-            elseif OpRot.Op.speed < 0 || gzero > 0
-                unk0(1) = IND_ANGLE_LOW;
-                unk0(2) = IND_ANGLE_ZERO;
             end
 
             % Solve the equation for the current element to find the inflow angle
@@ -86,7 +86,6 @@ function stahlhut(OpRot, Mod)
             % Save inflow angle
             OpRot.ElPerf.inflAngle(i) = phi;
             [~, ~, b2phi(i)] = Gfunc(phi);
-
         catch ME
 
             % Plot the function
@@ -137,7 +136,7 @@ function [gphi, b1phi, b2phi] = stahlhuteq(i, phi, OpRot, lossType)
     reynolds = OpRot.ElPerf.reynolds(i);
     tgSpeed = OpRot.ElPerf.tgSpeed(i);
     pitch = OpRot.ElPerf.truePitch(i);
-    airspeed = OpRot.Op.speed;
+    axSpeed = OpRot.ElPerf.axSpeed(i);
 
     % Loss factor (separate swirl and axial components)
     lossFact = prandtlloss(OpRot.Rot.nBlades, r, OpRot.Rot.r0, phi, lossType);
@@ -155,9 +154,9 @@ function [gphi, b1phi, b2phi] = stahlhuteq(i, phi, OpRot, lossType)
     b2phi = cos(phi) + ...
             1 / (8 * K_P) * sol * 1 / r * cl * sec(gamma) * csc(abs(phi)) * sin(phi + gamma);
 
-    gphi = (tgSpeed .* sin(phi) - airspeed .* cos(phi)) .* sin(phi) - ...
+    gphi = (tgSpeed .* sin(phi) - axSpeed .* cos(phi)) .* sin(phi) - ...
            sgn(phi, SIGNUM_ZERO) * 1 / (8 * r) * sol * cl * sec(gamma) * ...
-           (tgSpeed ./ K_T .* cos(phi + gamma) + airspeed ./ K_P .* sin(phi + gamma));
+           (tgSpeed ./ K_T .* cos(phi + gamma) + axSpeed ./ K_P .* sin(phi + gamma));
 
 end
 

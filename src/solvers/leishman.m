@@ -91,7 +91,7 @@ function leishman(OpRot, Mod)
     % Update values in ElemPerf
     OpRot.ElPerf.alpha = alpha;
     OpRot.ElPerf.inflAngle = phi;
-    OpRot.ElPerf.indVelAx = lambda * OpRot.tgTipSpeed - OpRot.Op.speed;
+    OpRot.ElPerf.indVelAx = lambda * OpRot.tgTipSpeed - OpRot.ElPerf.axSpeed;
     OpRot.ElPerf.indVelTg = OpRot.ElPerf.tgSpeed - xi * OpRot.tgTipSpeed;
 
 end
@@ -107,7 +107,7 @@ function [lambda, xi, phi, alpha] = leishmaneq(OpRot, clSlope, lossFact)
     %   alpha  : Angle of attack, [rad]
 
     % Abbreviations
-    lambda_c = OpRot.Op.speed / OpRot.tgTipSpeed;
+    lambda_c = (OpRot.ElPerf.axSpeed) / OpRot.tgTipSpeed;
     sol = OpRot.Rot.solidity; % [FIXME], normally it should be local solidity (see Carroll)
     r = OpRot.Rot.Bl.r;
     pitch = OpRot.ElPerf.truePitch;

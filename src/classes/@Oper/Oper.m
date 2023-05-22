@@ -52,21 +52,24 @@ classdef Oper < handle
 
     properties (GetAccess = public, SetAccess = protected)
         alt   (1, 1) double {mustBeNonnegative} % Altitude, [m]
-        speed (1, 1) double {mustBeNonnegative} % Axial speed, [m/s]
+        speed (1, 1) double {mustBeFinite} % Axial speed, [m/s]
         rpm   (:, 1) double {mustBeNonnegative} % Rotor rotation speed, [rpm]
         rps   (:, 1) double {mustBeNonnegative} % Rotor rotation speed, [rps]
         omega (:, 1) double {mustBeNonnegative} % Rotor rotation speed, [rad/s]
         coll  (:, 1) double {mustBeFinite}      % Rotor collective pitch, [rad]
         Flow  (1, 1) Flow % Flow object, describing the external flow properties
+        % Optional values:
+        tgSpeed   (1, :) double % Tangential speed of blade along sections, [m/s]
+        axSpeed   (1, :) double % Axial speed of blade along sections, [m/s]
     end
 
     methods
 
-        function self = Oper(alt, speed, rpm, coll, fluidType)
+        function self = Oper(alt, speed, rpm, coll, fluidType, tgSpeed, axSpeed)
             % Oper Constructor.
             %   Warning: 'coll' must be specified in deg!
 
-            if nargin > 0
+            if nargin >= 5
                 self.alt = alt;
                 self.rpm = rpm;
                 self.rps = rpm / 60;
@@ -74,8 +77,13 @@ classdef Oper < handle
                 self.speed = speed;
                 self.coll = deg2rad(coll);
                 self.Flow = Flow(fluidType, alt, speed, 0, 0); % TODO: Set angles properly
+                self.tgSpeed = [];
+                self.axSpeed = [];
             end
-
+            if nargin == 7
+                self.tgSpeed = tgSpeed;
+                self.axSpeed = axSpeed;
+            end
         end
 
         % ---------------------------------------------

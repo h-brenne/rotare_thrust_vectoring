@@ -37,8 +37,7 @@ function calcforces(self)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if ~isempty(self.cl)
-
-        axVel = self.Op.speed + self.indVelAx;
+        axVel = self.axSpeed + self.indVelAx;
         tgVel = self.tgSpeed - self.indVelTg;
         relVel = sqrt(axVel.^2 + tgVel.^2);
 

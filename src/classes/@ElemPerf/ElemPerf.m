@@ -58,7 +58,6 @@ classdef ElemPerf < handle
 
         reynolds (1, :) double % Reynolds number, [-]
 
-        tgSpeed   (1, :) double % Tangential speed, [m/s]
         pitch     (1, :) double % Pitch (twist + collective), [rad]
         alpha0    (1, :) double % Zero lift angle of attack, [rad]
         truePitch (1, :) double % Pitch (twist + collective - alpha_0), [rad]
@@ -77,6 +76,8 @@ classdef ElemPerf < handle
 
     properties
         inflAngle (1, :) double % Inflow angle, [rad]
+        tgSpeed   (1, :) double % Tangential speed of blade along sections, [m/s]
+        axSpeed   (1, :) double % Axial speed of blade along sections, [m/s]
     end
 
     % Make alpha a dependent property because Matlab does not like when we set multiple properties
@@ -116,12 +117,18 @@ classdef ElemPerf < handle
 
                 % Blade pitch
                 self.pitch = Rot.Bl.twist + Op.coll;
-
-                % In-plane velocities
-                self.tgSpeed = Op.omega .* Rot.Bl.y;
+                
+                % Velocities due to blade movement and axial speed 
+                if isempty(Op.tgSpeed) && isempty(Op.axSpeed)
+                    self.tgSpeed = Op.omega .* Rot.Bl.y;
+                    self.axSpeed = ones(1, length(self.tgSpeed))*Op.speed;
+                else
+                    self.tgSpeed = Op.tgSpeed;
+                    self.axSpeed = Op.axSpeed + Op.speed;
+                end
 
                 % Reynolds
-                relVel = sqrt(self.tgSpeed.^2 + Op.speed.^2);
+                relVel = sqrt(self.tgSpeed.^2 + self.axSpeed.^2);
                 self.reynolds = Flow.reynolds(relVel, Rot.Bl.chord, Op.Flow.mu, Op.Flow.rho);
 
                 % Get alpha_0 from reynolds
@@ -194,7 +201,7 @@ classdef ElemPerf < handle
             self.indVelAx_ = val;
 
             % Calculate inflow ratios
-            self.inflowRat_ = (self.Op.speed + val) ./ (self.Op.omega * self.Rot.radius);
+            self.inflowRat_ = (self.axSpeed + val) ./ (self.Op.omega * self.Rot.radius);
             self.indInflowRat_ = val ./ (self.Op.omega * self.Rot.radius);
         end
 
@@ -212,7 +219,7 @@ classdef ElemPerf < handle
             self.inflowRat_ = val;
 
             % Calculate induced velocity and ratio
-            self.indVelAx_ = val .* self.Op.omega * self.Rot.radius - self.Op.speed;
+            self.indVelAx_ = val .* self.Op.omega * self.Rot.radius - self.axSpeed;
             self.indInflowRat_ = self.indVelAx_ ./ (self.Op.omega * self.Rot.radius);
         end
 
@@ -230,7 +237,7 @@ classdef ElemPerf < handle
             self.indInflowRat_ = val;
 
             % Calculate inflow ratios
-            self.inflowRat_ = (self.Op.speed) ./ (self.Op.omega * self.Rot.radius) + val;
+            self.inflowRat_ = (self.axSpeed) ./ (self.Op.omega * self.Rot.radius) + val;
             self.indVelAx_ = val .* (self.Op.omega * self.Rot.radius);
         end
 
@@ -242,7 +249,6 @@ classdef ElemPerf < handle
             self.indVelTg_ = val .* (self.Op.omega * self.Rot.radius);
             self.swirlRat_ = self.tgSpeed ./ (self.Op.omega * self.Rot.radius) - val;
         end
-
         % ---------------------------------------------
         % Other methods
         plot(self, type) % Plot the evolution of the various properties along the span
