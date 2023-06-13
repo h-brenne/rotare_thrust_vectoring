@@ -188,6 +188,10 @@ function bladeplot(Blade, dataMat, handleAxis, iSec, surfProp, secProp)
     hold on;
     plot3(Blade.x(:, iSec), Blade.y(:, iSec), ...
           Blade.z(:, iSec), 'Parent', handleAxis, secProp{:});
+    % Set the axis labels using LaTeX interpreter
+    %xlabel(handleAxis, '$m$', 'Interpreter', 'latex');
+    %ylabel(handleAxis, '$m$', 'Interpreter', 'latex');
+    %zlabel(handleAxis, '$m$', 'Interpreter', 'latex');
 
 end
 

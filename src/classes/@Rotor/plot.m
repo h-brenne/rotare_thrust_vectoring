@@ -109,6 +109,13 @@ function plot(self, varargin)
         hAx = axes('NextPlot', 'add');
         plotblade(Blade, dataMat, hAx, DEF);
         setgca();
+        % Set the axis labels using LaTeX interpreter
+        xlabel(hAx, '$m$', 'Interpreter', 'latex');
+        ylabel(hAx, '$m$', 'Interpreter', 'latex');
+        zlabel(hAx, '$m$', 'Interpreter', 'latex');
+        
+        % Set the FontName property of the axes to 'Times New Roman' to simulate LaTeX font
+        set(hAx, 'FontName', 'Times New Roman');
     end
 
     if any(strcmp(type, {'all', 'rotor'}))
@@ -153,6 +160,14 @@ function plot(self, varargin)
         xlim([min(axLim(:, 1)), max(axLim(:, 2))]);
         ylim([min(axLim(:, 1)), max(axLim(:, 2))]);
         zlim([min(axLim(:, 1)), max(axLim(:, 2))]);
+           
+        % Set the axis labels using LaTeX interpreter
+        xlabel(hAx, '$m$', 'Interpreter', 'latex');
+        ylabel(hAx, '$m$', 'Interpreter', 'latex');
+        zlabel(hAx, '$m$', 'Interpreter', 'latex');
+        
+        % Set the FontName property of the axes to 'Times New Roman' to simulate LaTeX font
+        set(hAx, 'FontName', 'Times New Roman');
 
     end
 

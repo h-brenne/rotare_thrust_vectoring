@@ -32,12 +32,12 @@ def main():
     """Creates polar files for each reynolds"""
 
     airfoil = parse_inputs()
-    reynolds = [re * 1000000 for re in [0.2, 0.5, 1, 1.5, 2, 5, 10]]
-    aoa = list(np.arange(-18, 25, 0.5))
+    reynolds = [re * 100000 for re in [0.1, 0.5, 1]]
+    aoa = list(np.arange(-20, 25, 0.5))
 
     i = 1
     for re in reynolds:
-        print("%d/%d - Calculating polar for Re=%ge6" % (i, len(reynolds), re / 1e6))
+        print("%d/%d - Calculating polar for Re=%ge5" % (i, len(reynolds), re / 1e5))
         i = i + 1
 
         if airfoil.startswith("naca"):
@@ -48,7 +48,7 @@ def main():
                 Reynolds=re,
                 plots=False,
                 NACA=True,
-                iteration=500,
+                iteration=5000,
             )
         else:
             if os.path.exists(airfoil) or os.path.exists(airfoil + ".dat"):
@@ -59,7 +59,7 @@ def main():
                     Reynolds=re,
                     plots=False,
                     NACA=False,
-                    iteration=500,
+                    iteration=5000,
                 )
             else:
                 raise ValueError("Airfoil file not foud")
